@@ -1,0 +1,13 @@
+.guest-list{
+    margin: auto;
+    background: red;
+    padding-top:30px;
+    padding-bottom:30px;
+    width: 200px;
+}
+.ActiveEvent img{
+    height: 50px;
+    width:auto;
+    left:0;
+    right:0;
+}

@@ -1,0 +1,16 @@
+.App {
+  text-align: center;
+}
+
+.App ul{
+  background:#0828CC;
+  height: 50px;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 15px;
+}
+a {
+   color: inherit; 
+} 
