@@ -22,3 +22,16 @@ Routes:
 <Route path='/new-event' component={NewEvent}/>
 <Route path='/invite-friends' component={InviteFriends}/>
 <Route path='/user-info' component={UserInfo}/>
+
+nodemon --watch /server
+
+Forever Logged in:
+app.use((req, res, next)=>{
+    if(process.env.DEV_MODE){
+        req.user = {
+            id: 1,
+            name: '<Your Name>',
+            etc: 'blabla'
+        }
+    }
+})

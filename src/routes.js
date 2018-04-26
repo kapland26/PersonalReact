@@ -7,11 +7,13 @@ import AddFriends from './component/Friends/AddFriends.js';
 import Home from './component/Home/Home.js';
 import NewEvent from './component/NewEvent/NewEvent.js';
 import UserInfo from './component/UserInfo/UserInfo.js';
+import Login from './component/Login/Login.js';
 
 export default (
     <div>
         <Switch>
-            <Route exact path='/' component={Home} />
+            <Route exact path='/' component={Login}/>
+            <Route path='/home' component={Home} />
             <Route path='/active-event' component={ActiveEvent}/>
             <Route path='/friends' component={Friends}/>
             <Route path='/add-friends' component={AddFriends}/>

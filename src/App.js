@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
+import routes from "./routes";
 import './reset.css';
 import './App.css';
-import {Link} from 'react-router-dom';
+require('dotenv').config();
 
-
-import routes from "./routes";
 
 class App extends Component {
   render() {
@@ -12,10 +12,11 @@ class App extends Component {
       <div className="App">
         <div className="header-container">
           <ul>
-            <li><Link to={'/'}>Home</Link></li>
+            <li><Link to={'/home'}>Home</Link></li>
             <li><Link to={'/friends'}>Friends</Link></li>
             <li><Link to={'/new-event'}>Start Event</Link></li>
             <li><Link to={'/user-info'}>Settings</Link></li>
+            <li><a href={'http://localhost:3005/logout'}> Logout </a></li>
           </ul>
         </div>
         {routes}
