@@ -14,7 +14,7 @@ class ActiveEvent extends Component {
                     Guest List
                 </div>
                 <br/><br/>
-                <Link to={'/'}><button><img src={logo} alt="temp-log" /></button></Link>
+                <Link to={'/home'}><button><img src={logo} alt="temp-log" /></button></Link>
             </div>
         )
     }

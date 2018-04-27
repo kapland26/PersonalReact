@@ -8,6 +8,7 @@ import Home from './component/Home/Home.js';
 import NewEvent from './component/NewEvent/NewEvent.js';
 import UserInfo from './component/UserInfo/UserInfo.js';
 import Login from './component/Login/Login.js';
+import Settings from './component/Settings/Settings.js';
 
 export default (
     <div>
@@ -19,6 +20,7 @@ export default (
             <Route path='/add-friends' component={AddFriends}/>
             <Route path='/new-event' component={NewEvent}/>
             <Route path='/user-info' component={UserInfo}/>
+            <Route path='/settings' component={Settings}/>
         </Switch>
     </div>
 )

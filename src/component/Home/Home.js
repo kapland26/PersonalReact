@@ -12,12 +12,13 @@ class Home extends Component {
     render(){
         // let {display_name, img, auth_id} = this.props.user;
         const user = this.props.user||{} 
+        console.log(user)
         return(
             <div className="Home">
                 HOME   
-                <br/>
-                {user.email}
-                <br/>
+                <br/><br/>
+                {user.name}
+                <br/><br/>
                 Welcome! 
                 <br/><br/>
                 Current Invites:<br/>

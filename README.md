@@ -1,5 +1,4 @@
-To Do: 
-    - check unique usernames
+To Do:
     - Conditional start event/go to current event
     - Conditional display/change info on user info (delete option)
     - Host condition for active event
@@ -9,9 +8,10 @@ To Do:
 
 
 To Do After Done:
+    - check unique usernames, do not allow log-in click unless both boxes filled
     - Timer on event leave
     - show if friends already in an event on invite list
-
+    - Poll for github/google (maybe no github?)
 
 
 Routes:
