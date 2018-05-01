@@ -1,19 +1,24 @@
-To Do:
-    - Update user settings, delete account
+To Do TODAY:
+    - Display added friends on friends page
+    - Delete friends from friends page
+    - Events??
+
+To Do Eventually:
     - Conditional start event/go to current event
     - Conditional display/change info on user info (delete option)
     - Host condition for active event
     - Change active event into list of invites and info, delete option that DOESNT count as leaving
-    -Make sql table, in friend-friend: alphabetical order
-    - Do contains query on names search for friends
-
-
-To Do After Done:
+    - Update user settings, delete account
     - check unique usernames, do not allow log-in click unless both boxes filled
-    - Timer on event leave
     - show if friends already in an event on invite list
-    - Poll for github/google (maybe no github?)
+    - Some kind of alert when event is left
 
+MAYBE do:
+    - Do not allow adding of self/current friends to friends list
+    - Mutual friendship
+    - search database without case
+    - Timer on event leave
+    - Chat room
 
 Routes:
 <Route exact path='/' component={Home} />

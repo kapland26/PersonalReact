@@ -4,7 +4,8 @@ const express = require('express')
 , Auth0Strategy = require('passport-auth0')
 , massive = require('massive');
 require('dotenv').config();
-const uc = require('./user_controller.js')
+const uc = require('./user_controller.js');
+const fc = require('./friend_controller.js');
 
 const app = express();
 
@@ -79,6 +80,9 @@ app.get('/auth/me', function(req, res){
 
 app.put('/auth/me',uc.updateInfo);
 app.get('/users', uc.searchUsers);
+
+app.get('/friends/get', fc.getAll);
+app.post('/friend', fc.add);
 
 app.get('/logout', function(req, res){
     req.logOut();

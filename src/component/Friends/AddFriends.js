@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
+import {connect} from 'react-redux';
 
-import FriendOption from './FriendOption.js'
+import AddFriendsContainer from './AddFriendsContainer.js'
 
 class AddFriends extends Component {
 
@@ -13,6 +14,7 @@ class AddFriends extends Component {
             input:"",
             searchResults: []
         }
+        this.handleAddFriend = this.handleAddFriend.bind(this);
     }
 
     handleSelect(e){
@@ -41,14 +43,32 @@ class AddFriends extends Component {
     }
 
     handleAddFriend(user_id){
-        
+        console.log("new user: ",user_id);
+        console.log("current user: ", this.props.user.user_id);
+        let user1_id="";
+        let user2_id="";
+
+        if(user_id<this.props.user.user_id){
+            user1_id=user_id;
+            user2_id=this.props.user.user_id;
+        }else{
+            user1_id= this.props.user.user_id;
+            user2_id= user_id;
+        }
+        axios.post(`/friend/?user1_id=${user1_id}&user2_id=${user2_id}`).then(function () {
+            console.log("Friend added");
+            //disallow add feature on list (delete list?)
+        })
+        .catch(function (error) {
+            alert("Error adding friend!");
+        });
     }
 
     render(){
         var resultList = this.state.searchResults.map((val, i)=>{
             return (
                 <div className="friendOptionContainer" key={i}>
-                    <FriendOption user_id={val.user_id} name={val.name} img={val.img} username={val.username} email={val.email} />
+                    <AddFriendsContainer handleAddFriend={this.handleAddFriend} user_id={val.user_id} name={val.name} img={val.img} username={val.username} email={val.email} />
                 </div>
             )
         })
@@ -69,4 +89,10 @@ class AddFriends extends Component {
         )
     }
 }
-export default AddFriends;
+function mapStateToProps(state){
+    return{
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps, {})(AddFriends);
