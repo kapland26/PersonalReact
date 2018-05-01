@@ -5,7 +5,7 @@ module.exports = {
 
         console.log("inside update info ", username, name)
         const db = req.app.get('db')
-        db.update_user([username, name, user_id]).then( () =>
+        db.users.update_user([username, name, user_id]).then( () =>
             res.status(200).send())
             .catch( (err) => {
                 console.log(err)
@@ -13,7 +13,6 @@ module.exports = {
             });      
     },
     searchUsers: (req, res) => {
-        console.log("Inside searchUsers!")
         let { username, name, email} = req.query;
         let metric = username ||name ||email;
         let key = "";
@@ -25,14 +24,38 @@ module.exports = {
             key="email";
         }
 
-        console.log("metric: ",metric," key= ", key)
+        
+        const db = req.app.get('db')
+        var metricArr = metric.split("");
+        // metricArr.pop();
+        // metricArr.shift();
+        metricArr.push('%');
+        metric = metricArr.join("");
 
-        // db.search_users([key, metric]).then( (users) =>
-        //     res.status(200).send(users))
-        //     .catch( (err) => {
-        //         console.log(err)
-        //         res.status(500).send(err) 
-        //     }); 
+
+        console.log("key = ", key, " metric = ", metric)
+        if(key==="name"){
+            db.users.search_user_name([metric]).then( (users) =>
+            res.status(200).send(users))
+            .catch( (err) => {
+                console.log(err)
+                res.status(500).send(err) 
+            }); 
+        }else if(key==="email"){
+            db.users.search_user_email([metric]).then( (users) =>
+            res.status(200).send(users))
+            .catch( (err) => {
+                console.log(err)
+                res.status(500).send(err) 
+            }); 
+        }else{
+            db.users.search_user_username([metric]).then( (users) =>
+            res.status(200).send(users))
+            .catch( (err) => {
+                console.log(err)
+                res.status(500).send(err) 
+            }); 
+        }
     }
 
 }

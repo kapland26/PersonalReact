@@ -40,11 +40,11 @@ passport.use( new Auth0Strategy({
    }, function(accessToken, refreshToken, extraParams, profile, done) {
     const db = app.get('db')
     const {id, displayName, picture} = profile;
-    db.find_user([id]).then( users =>{
+    db.users.find_user([id]).then( users =>{
         if(users[0]){//Will return in array
             return done(null, users[0].user_id)
         }else{
-            db.create_user([ id, displayName, picture]).then(createdUser=> {
+            db.users.create_user([ id, displayName, picture]).then(createdUser=> {
                 return done(null, createdUser[0].user_id)
             })
         }
@@ -52,11 +52,13 @@ passport.use( new Auth0Strategy({
 }));
 
 passport.serializeUser( (id, done) => {
+    console.log("Inside serialize user: ",id)
     done(null, id);
 });
 
 passport.deserializeUser( (id, done) => {
-    app.get('db').find_session_user([id]).then(user => {
+    console.log("Inside deserialize user, id: ",   )
+    app.get('db').users.find_session_user([id]).then(user => {
        done(null, user[0]);//user put on req for endpoint
     })
 });
