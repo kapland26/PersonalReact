@@ -80,6 +80,7 @@ app.get('/auth/me', function(req, res){
 
 app.put('/auth/me',uc.updateInfo);
 app.get('/users', uc.searchUsers);
+app.get('/user', uc.getUser);
 
 app.get('/friends/get', fc.getAll);
 app.post('/friend', fc.add);

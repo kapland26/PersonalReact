@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {getUser} from './../../ducks/reducer.js'
+import {getUser, getFriends} from './../../ducks/reducer.js'
 
 class Home extends Component {
 
     componentDidMount(){
         this.props.getUser();
+        const user = this.props.user || {}
+        this.props.getFriends(user.user_id);
     }
 
     render(){
@@ -35,4 +37,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, {getUser})(Home);
+export default connect(mapStateToProps, {getUser, getFriends})(Home);

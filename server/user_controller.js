@@ -56,6 +56,16 @@ module.exports = {
                 res.status(500).send(err) 
             }); 
         }
+    },
+    getUser: ( req, res ) => {
+        let { user_id} = req.query;
+        const db = req.app.get('db');
+        db.users.get_user([user_id]).then( (user) =>
+            res.status(200).send(user))
+            .catch( (err) => {
+                console.log(err)
+                res.status(500).send(err) 
+            });  
     }
 
 }

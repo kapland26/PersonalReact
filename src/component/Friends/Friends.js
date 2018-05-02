@@ -7,20 +7,14 @@ import FriendContainer from './FriendContainer.js'
 
 class Friends extends Component{
 
-    componentDidMount(){
-        const user = this.props.user||{} 
-        this.props.getFriends(user.user_id);
-        console.log(this.props.friends);
-    }
-
     render(){
         var friendList = this.props.friends.map((val, i)=> {
-            console.log("val =",val)
-            // return (
-            //     <div className="friendListContainer" key={i}>
-            //         {/* <FriendContainer user_id={} */}
-            //     </div>
-            // )
+            console.log(val)
+            return (
+                <div className="friendListContainer" key={i}>
+                     <FriendContainer user_id={val.user_id} username={val.username} name={val.name} email={val.email}/>
+                </div>
+            )
         })        
         return(
             <div className="Friends">
@@ -37,7 +31,6 @@ class Friends extends Component{
 }
 function mapStateToProps(state){
     return{
-        user: state.user,
         friends: state.friends
     }
 }

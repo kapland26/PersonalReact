@@ -34,9 +34,29 @@ export function getFriends(userId){
         let tempFriends = [];
         for(var i=0; i<res.data.length; i++){
             if(res.data[i].user1_id===userId.toString()){
-                tempFriends.push(res.data[i].user2_id);
+                axios.get(`/user?user_id=${res.data[i].user2_id}`).then(res2 => {
+                    tempFriends.push({
+                        user_id:res2.data[0].user_id,
+                        username: res2.data[0].username,
+                        name: res2.data[0].name,
+                        image: res2.data[0].image,
+                        email: res2.data[0].email
+                    })
+                    console.log(tempFriends)
+                })
+                
             }else{
-                tempFriends.push(res.data[i].user1_id);
+                axios.get(`/user?user_id=${res.data[i].user1_id}`).then(res2 => {
+                    console.log(res2)
+                    tempFriends.push({
+                        user_id:res2.data[0].user_id,
+                        username: res2.data[0].username,
+                        name: res2.data[0].name,
+                        image: res2.data[0].image,
+                        email: res2.data[0].email
+                    })
+                    console.log(tempFriends)
+                })
             }
         } 
         return tempFriends;
