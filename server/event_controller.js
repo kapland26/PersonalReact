@@ -14,6 +14,7 @@ module.exports = {
     },
     getEventInfo: (req, res) => {
         const { event_id } = req.query;
+        console.log("event_id  = ", event_id)
         const db = req.app.get('db')
         db.events.get_event_info([event_id]).then( (event) =>{
             res.status(200).send(event);

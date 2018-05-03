@@ -16,13 +16,14 @@ class ActiveEvent extends Component {
         }
     }
 
-    componentDidUpdate(){
+    componentDidMount(){
         this.getEventinfo();
     }
 
     getEventinfo(){
-        const user = this.props.user||{} ;
+        const user = this.props.user||{};
         axios.get(`/event/getInfo?event_id=${user.active_event_id}`).then( res => {
+            console.log(res.data[0])
             this.setState({
                 event : res.data[0]
             })
@@ -30,10 +31,11 @@ class ActiveEvent extends Component {
     }
 
     updateLeave(){
-        const event = this.state.event||{} ;
+        const event = this.state.event||{};
         console.log(event)
         axios.put(`/event/leave?event_id=${event.event_id}&users_remaining=${event.users_remaining}`).then( response => {
-            console.log(response)
+            console.log(response);
+            this.getEventinfo();
         })
         this.setState({
             image : wait
@@ -53,6 +55,7 @@ class ActiveEvent extends Component {
                     <p>People Invited: {event.users_invited}</p>
                     <p>EOP limit: {Math.ceil(event.users_invited/2)}</p>
                 </div>
+                <h2>{this.state.message}</h2>
                 <br/><br/>
                 <button onClick={()=>this.updateLeave()}><img src={this.state.image} alt="temp-log" /></button>
             </div>

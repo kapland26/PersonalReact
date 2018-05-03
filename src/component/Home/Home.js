@@ -22,15 +22,17 @@ class Home extends Component {
         this.props.getFriends(user.user_id);
     }
 
-    componentDidUpdate(){
-        this.props.getUser();
-        this.props.getEventInvites(this.props.user.user_id);
+    componentDidUpdate(oldProps, newProps){
+        if(oldProps !== newProps){
+        console.log("Inside component did update")
+        }
     }
 
     deleteEventInvite(event, usersInvited){
         console.log("Inside deleteEventInvite, event= ", event, " users_invited = ", usersInvited)
         axios.delete(`/attendance?event_id=${event}`).then((response) => {
             console.log(response);
+            this.props.getEventInvites(this.props.user.user_id);
         })
     }
 

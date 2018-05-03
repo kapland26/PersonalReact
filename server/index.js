@@ -113,6 +113,7 @@ io.on('connection', socket => {
     io.to(data.room).emit('room joined');
   })
   socket.on('message sent', data => {
+      console.log("Inside message sent, ")
     io.to(data.room).emit('message dispatched', data.message);
   })
 
