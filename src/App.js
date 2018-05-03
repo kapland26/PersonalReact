@@ -14,7 +14,7 @@ class App extends Component {
           <ul>
             <li><Link to={'/home'}>Home</Link></li>
             <li><Link to={'/friends'}>Friends</Link></li>
-            <li><Link to={'/new-event'}>Start Event</Link></li>
+            <li><Link to={'/new-event'}>Event</Link></li>
             <li><Link to={'/settings'}>Settings</Link></li>
             <li><a href={'http://localhost:3005/logout'}> Logout </a></li>
           </ul>

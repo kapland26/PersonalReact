@@ -1,9 +1,10 @@
+import './FriendContainer.css';
 import React from 'react';
 
 export default function AddFriendsContainer( props ) {
 
     return(
-        <div className="AddFriendsContainer">
+        <div className="FriendContainer">
             Name: {props.name}<br/>
             Email: {props.email}<br/>
             Username: {props.username}<br/>

@@ -2,19 +2,23 @@ import axios from 'axios';
 
 const initialState = {
     user: null,
-    friends: []
+    friends: [],
+    invites: []
 }
 
 const GET_USER_INFO = 'GET_USER_INFO';
 const GET_FRIENDS = 'GET_FRIENDS';
+const GET_EVENT_INVITES = 'GET_EVENT_INVITES';
 
 function reducer(state = initialState, action){ 
-   console.log("In reducer, action = "+action.type+", payload: "+action.payload)
+//    console.log("In reducer, action = "+action.type+", payload: "+action.payload)
     switch(action.type){
         case GET_USER_INFO+'_FULFILLED':
             return Object.assign({}, state, {user: action.payload})  
         case GET_FRIENDS+'_FULFILLED':
             return Object.assign({}, state, {friends: action.payload})
+        case GET_EVENT_INVITES+'_FULFILLED':
+            return Object.assign({}, state, {invites: action.payload})
         default:
             return state;
     }
@@ -42,7 +46,7 @@ export function getFriends(userId){
                         image: res2.data[0].image,
                         email: res2.data[0].email
                     })
-                    console.log(tempFriends)
+                    // console.log(tempFriends)
                 })
                 
             }else{
@@ -55,12 +59,11 @@ export function getFriends(userId){
                         image: res2.data[0].image,
                         email: res2.data[0].email
                     })
-                    console.log(tempFriends)
+                    // console.log(tempFriends)
                 })
             }
         } 
         return tempFriends;
-        // return res.data;
     })
 
     return {
@@ -68,6 +71,15 @@ export function getFriends(userId){
         payload: friendsData
     }
 }
-
+export function getEventInvites(userId){
+    let outArr = [];
+    let inviteData = axios.get(`/events?user_id=${userId}`).then( res => {
+        return res.data;
+    })
+    return {
+        type: GET_EVENT_INVITES,
+        payload: inviteData
+    }
+}
 
 export default reducer;

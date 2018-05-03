@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {getFriends} from './../../ducks/reducer.js'
 
 import FriendContainer from './FriendContainer.js'
 
@@ -9,7 +8,6 @@ class Friends extends Component{
 
     render(){
         var friendList = this.props.friends.map((val, i)=> {
-            console.log(val)
             return (
                 <div className="friendListContainer" key={i}>
                      <FriendContainer user_id={val.user_id} username={val.username} name={val.name} email={val.email}/>
@@ -20,7 +18,6 @@ class Friends extends Component{
             <div className="Friends">
             Friends
             <br/><br/>
-            List of all friends Names (Usernames) +Delete Option
             {friendList}
             <br /><br/>
             <Link to={'/add-friends'}><button>Find Friends</button></Link>
@@ -34,4 +31,4 @@ function mapStateToProps(state){
         friends: state.friends
     }
 }
-export default connect(mapStateToProps, {getFriends})(Friends);
+export default connect(mapStateToProps, {})(Friends);

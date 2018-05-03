@@ -3,7 +3,7 @@ module.exports = {
         let { username, name} = req.query;
         let {user_id} = req.user;
 
-        console.log("inside update info ", username, name)
+        // console.log("inside update info ", username, name)
         const db = req.app.get('db')
         db.users.update_user([username, name, user_id]).then( () =>
             res.status(200).send())
@@ -33,7 +33,7 @@ module.exports = {
         metric = metricArr.join("");
 
 
-        console.log("key = ", key, " metric = ", metric)
+        // console.log("key = ", key, " metric = ", metric)
         if(key==="name"){
             db.users.search_user_name([metric]).then( (users) =>
             res.status(200).send(users))

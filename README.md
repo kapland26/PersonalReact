@@ -4,6 +4,7 @@ To Do TODAY:
     - Events??
 
 To Do Eventually:
+    - Semantic UI
     - Conditional start event/go to current event
     - Conditional display/change info on user info (delete option)
     - Host condition for active event

@@ -1,11 +1,14 @@
 const express = require('express')
-, session = require('express-session')
-, passport = require('passport')
-, Auth0Strategy = require('passport-auth0')
-, massive = require('massive');
+    , session = require('express-session')
+    , passport = require('passport')
+    , Auth0Strategy = require('passport-auth0')
+    , socket = require('socket.io')
+    , massive = require('massive');
 require('dotenv').config();
-const uc = require('./user_controller.js');
-const fc = require('./friend_controller.js');
+const uc = require('./user_controller.js')
+    , fc = require('./friend_controller.js')
+    , ec = require('./event_controller.js')
+    , ac = require('./attendance_controller.js');
 
 const app = express();
 
@@ -53,12 +56,12 @@ passport.use( new Auth0Strategy({
 }));
 
 passport.serializeUser( (id, done) => {
-    console.log("Inside serialize user: ",id)
+    // console.log("Inside serialize user: ",id)
     done(null, id);
 });
 
 passport.deserializeUser( (id, done) => {
-    console.log("Inside deserialize user, id: ",   )
+    // console.log("Inside deserialize user, id: ",   )
     app.get('db').users.find_session_user([id]).then(user => {
        done(null, user[0]);//user put on req for endpoint
     })
@@ -85,12 +88,35 @@ app.get('/user', uc.getUser);
 app.get('/friends/get', fc.getAll);
 app.post('/friend', fc.add);
 
+app.get('/events', ec.getInvites);
+
+app.delete('/attendance', ac.rejectEvent);
+
 app.get('/logout', function(req, res){
     req.logOut();
     res.redirect('http://localhost:3000')
 })
 
-app.listen(SERVER_PORT, () =>
-    console.log(`Listening on port: ${SERVER_PORT}`));
+// app.listen(SERVER_PORT, () =>
+//     console.log(`Listening on port: ${SERVER_PORT}`));
+
+const io = socket(app.listen(SERVER_PORT, () => console.log(`Listening on port ${SERVER_PORT}`)));
+
+io.on('connection', socket => {
+  // EVERYONE IN THE ROOM
+  socket.on('join room', data => {
+    console.log('Room joined', data.room)
+    socket.join(data.room);
+    io.to(data.room).emit('room joined');
+  })
+  socket.on('message sent', data => {
+    io.to(data.room).emit('message dispatched', data.message);
+  })
+
+  socket.on('disconnect', () => {
+    console.log('User Disconnected');
+  })
+});
+
 
 //  http://localhost:3005/auth
