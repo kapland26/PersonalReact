@@ -12,6 +12,7 @@ class Home extends Component {
         super();
 
         this.deleteEventInvite = this.deleteEventInvite.bind(this);
+        this.updateActiveEvent = this.updateActiveEvent.bind(this);
     }
 
     componentDidMount(){
@@ -22,6 +23,7 @@ class Home extends Component {
     }
 
     componentDidUpdate(){
+        this.props.getUser();
         this.props.getEventInvites(this.props.user.user_id);
     }
 
@@ -32,13 +34,20 @@ class Home extends Component {
         })
     }
 
+    updateActiveEvent(event){
+        console.log("Inside update active event")
+        axios.put(`/user/updateEvent?event_id=${event}`).then((response) => {
+            console.log(response);
+        })
+    }
+
     render(){
         // let {display_name, img, auth_id} = this.props.user;
         const user = this.props.user||{} 
         let invitesList = this.props.invites.map((val, i)=>{
             return (
                 <div className="invitesContainer" key={i}>
-                    <ListInvitesContainer deleteEventInvite={this.deleteEventInvite} event_id={val.event_id} users_invited={val.users_invited} users_remaining={val.users_remaining} host={val.host? "Host Event": "No Host"}/>
+                    <ListInvitesContainer deleteEventInvite={this.deleteEventInvite} updateActiveEvent={this.updateActiveEvent} event_id={val.event_id} users_invited={val.users_invited} users_remaining={val.users_remaining} host={val.host? "Host Event": "No Host"}/>
                     {/* <ListInvitesContainer deleteEventInvite={this.deleteEventInvite} event_id={"1"} users_invited={"1"}users_remaining={"0"} host={"Host Event"}/> */}
                 </div>
             )

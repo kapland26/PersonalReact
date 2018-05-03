@@ -5,7 +5,7 @@ To Do TODAY:
 
 To Do Eventually:
     - Semantic UI
-    - Conditional start event/go to current event
+    - On event invite, show guest list and maybe a description?
     - Conditional display/change info on user info (delete option)
     - Host condition for active event
     - Change active event into list of invites and info, delete option that DOESNT count as leaving
@@ -15,6 +15,7 @@ To Do Eventually:
     - Some kind of alert when event is left
 
 MAYBE do:
+    - Restrict access to pages when not logged in
     - Do not allow adding of self/current friends to friends list
     - Mutual friendship
     - search database without case

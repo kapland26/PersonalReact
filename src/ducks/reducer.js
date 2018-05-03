@@ -72,7 +72,6 @@ export function getFriends(userId){
     }
 }
 export function getEventInvites(userId){
-    let outArr = [];
     let inviteData = axios.get(`/events?user_id=${userId}`).then( res => {
         return res.data;
     })

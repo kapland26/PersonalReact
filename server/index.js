@@ -73,7 +73,7 @@ app.get('/auth/callback', passport.authenticate('auth0', {
     failureRedirect: 'http://localhost:3000'
 }))
 app.get('/auth/me', function(req, res){
-    console.log("71: ",req.user)
+    //console.log("Current user: ",req.user)
     if( req.user) { //req.user is logged in user
         res.status(200).send(req.user);
     } else{
@@ -84,11 +84,14 @@ app.get('/auth/me', function(req, res){
 app.put('/auth/me',uc.updateInfo);
 app.get('/users', uc.searchUsers);
 app.get('/user', uc.getUser);
+app.put('/user/updateEvent', uc.updateEvent);
 
 app.get('/friends/get', fc.getAll);
 app.post('/friend', fc.add);
 
 app.get('/events', ec.getInvites);
+app.get('/event/getInfo', ec.getEventInfo);
+app.put('/event/leave', ec.leave);
 
 app.delete('/attendance', ac.rejectEvent);
 
