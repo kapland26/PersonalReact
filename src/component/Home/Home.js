@@ -2,14 +2,19 @@ import './Home.css'
 import React, {Component} from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
-import {getUser, getFriends, getEventInvites} from './../../ducks/reducer.js';
+import {Link,  Redirect} from 'react-router-dom';
+import {getUser, getFriends, getEventInvites, setActiveEvent} from './../../ducks/reducer.js';
+import RaisedButton from 'material-ui/RaisedButton';
 import ListInvitesContainer from './ListInvitesContainer.js';
 
 class Home extends Component {
 
     constructor(){
         super();
+
+        this.state ={
+            redirect: false
+        }
 
         this.deleteEventInvite = this.deleteEventInvite.bind(this);
         this.updateActiveEvent = this.updateActiveEvent.bind(this);
@@ -24,7 +29,7 @@ class Home extends Component {
 
     componentDidUpdate(oldProps, newProps){
         if(oldProps !== newProps){
-        console.log("Inside component did update")
+        // console.log("Inside component did update")
         }
     }
 
@@ -37,20 +42,33 @@ class Home extends Component {
     }
 
     updateActiveEvent(event){
-        console.log("Inside update active event")
-        axios.put(`/user/updateEvent?event_id=${event}`).then((response) => {
-            console.log(response);
-        })
+        this.props.setActiveEvent(event);     
+        this.toggleRedirect(true);
+    }
+
+    toggleRedirect(inp){
+        if(inp===true){
+            this.setState({
+                redirect : true
+            })
+        }else{
+            this.setState({
+                redirect : false
+            })
+        }
     }
 
     render(){
+        if(this.state.redirect===true){
+            this.toggleRedirect(false)
+            return <Redirect to='/active-event'/>
+        }
         // let {display_name, img, auth_id} = this.props.user;
         const user = this.props.user||{} 
         let invitesList = this.props.invites.map((val, i)=>{
             return (
                 <div className="invitesContainer" key={i}>
                     <ListInvitesContainer deleteEventInvite={this.deleteEventInvite} updateActiveEvent={this.updateActiveEvent} event_id={val.event_id} users_invited={val.users_invited} users_remaining={val.users_remaining} host={val.host? "Host Event": "No Host"}/>
-                    {/* <ListInvitesContainer deleteEventInvite={this.deleteEventInvite} event_id={"1"} users_invited={"1"}users_remaining={"0"} host={"Host Event"}/> */}
                 </div>
             )
         })
@@ -63,7 +81,7 @@ class Home extends Component {
                 Pending Events:<br/><br/>
                 {invitesList}
                 <br/><br/>
-                <Link to={'/new-event'}><button>START EVENT</button></Link>
+                <Link to={'/new-event'}><RaisedButton label="START NEW EVENT" primary={true} background={'red'} /></Link>
             </div>
         )
     }
@@ -76,4 +94,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, {getUser, getFriends, getEventInvites})(Home);
+export default connect(mapStateToProps, {getUser, getFriends, getEventInvites, setActiveEvent})(Home);

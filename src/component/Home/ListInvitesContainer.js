@@ -1,17 +1,27 @@
 import './ListInvitesContainer.css'
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
 
-export default function ListInvitesContainer( props ) {
+class ListInvitesContainer extends Component{
 
-    return(
-        <div className="ListInvitesContainer">
-            <p>Event: {props.event_id}</p>
-            <p>Amount Invited: {props.users_invited}</p>
-            <p>{props.host}</p>
-            <p> <Link to={'/active-event'}><button onClick= {()=>props.updateActiveEvent(props.event_id)}> Attend </button></Link></p>
-            <p> <button onClick= {()=>props.deleteEventInvite(props.event_id, props.users_invited)} > Delete </button></p>
-        </div>
-    )
-
+    render(){
+        return(
+            <div className="ListInvitesContainer">
+                <p>Event: {this.props.event_id}</p>
+                <p>Amount Invited: {this.props.users_invited}</p>
+                <p>{this.props.host}</p>
+                <p><button onClick= {()=>this.props.updateActiveEvent(this.props.event_id)}> Attend </button></p>
+                <p> <button onClick= {()=>this.props.deleteEventInvite(this.props.event_id, this.props.users_invited)} > Delete </button></p>
+            </div>
+        )
+    }
 }
+
+function mapStateToProps(state){
+    return{
+        user: state.user,
+        invites: state.invites
+    }
+}
+
+export default connect(mapStateToProps, {})(ListInvitesContainer);

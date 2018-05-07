@@ -1,4 +1,4 @@
-import './FriendContainer.css';
+import './NEFriendContainer.css';
 import React from 'react';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -9,7 +9,6 @@ export default function FriendContainer( props ) {
     return(
         <div className="FriendContainer">
             <p>Name: {props.name}</p>
-            <p>Email: {props.email}</p>
             <p>Username: {props.username}</p>
             <p>Image: <img src={props.image} alt="profile"/></p>
             <IconButton aria-label="Delete">

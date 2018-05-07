@@ -70,10 +70,17 @@ module.exports = {
     updateEvent: (req, res) => {
         let {user_id} = req.user;
         let {event_id} = req.query;
-        // console.log("inside update  event, id= ", event_id);
+        
         const db = req.app.get('db');
-        db.users.update_event([event_id, user_id]).then( (user) =>
-        res.status(200).send(user))
+        db.users.update_event([event_id, user_id]).then( () =>{
+            db.events.get_event_info([event_id]).then( (event) =>{
+                res.status(200).send(event);
+            })
+            .catch( (err) => {
+                console.log(err)
+                res.status(500).send(err) 
+            });  
+        })
         .catch( (err) => {
             console.log(err)
             res.status(500).send(err) 

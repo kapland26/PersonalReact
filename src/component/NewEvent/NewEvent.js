@@ -1,108 +1,52 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
-// import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 import './NewEvent.css';
 
+import FriendContainer from './NEFriendContainer.js'
+
 class NewEvent extends Component {
-    constructor() {
-        super();
-        this.state = {
-          input: '',
-          message: '',
-          room: null,
-          joined: false
-        }
-    
-        this.updateMessage = this.updateMessage.bind(this);
-        this.sendMessage = this.sendMessage.bind(this);
-        // EVERYONE IN ROOM
-        this.joinRoom = this.joinRoom.bind(this);
-        this.joinSuccess = this.joinSuccess.bind(this);
-      }
-      componentDidMount() {
-        this.socket = io();
-        this.socket.on('message dispatched', data => {
-          this.updateMessage(data);
-        })
-        // EVERYONE IN ROOM
-        this.socket.on('room joined', data => {
-          this.joinSuccess()
-        })
-      }
-      updateMessage(message) {
-        console.log(message)
-        this.setState({
-          message
-        })
-      }
-    
-      
-      sendMessage() {
-        this.socket.emit('message sent', {
-          message: this.state.input,
-          room: this.state.room
-        })
-      }
-    
-    
-      joinRoom() {
-        if (this.state.room) {
-          this.socket.emit('join room', {
-            room: this.state.room
-          })
-        }
-      }
-      joinSuccess() {
-        this.setState({
-          joined: true
-        })
-      }
+   
     render(){
+        var friendList = this.props.friends.map((val, i)=> {
+          return (
+              <div className="friendListContainer" key={i}>
+                  <FriendContainer noDelete={true} user_id={val.user_id} username={val.username} name={val.name} email={val.email}/>
+              </div>
+          )
+        })  
+
         return(
             <div className = "NewEvent">
-               {this.state.joined ? <h1>My Room: {this.state.room}</h1> : null}
-        <h2>{this.state.message}</h2>
-        {
-          this.state.joined
-            ?
-            <div>
-              <input value={this.state.input} onChange={e => {
-                this.setState({
-                  input: e.target.value
-                })
-              }} />
-              <button onClick={this.sendMessage}>Send</button>
+            <h1>New Event</h1><br/>
+            Will you be hosting this event?   
+            <select>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select>
+            <br/><br/>
+            <h2>Guest List:</h2>
+
+            <div className="list-container">
+                {friendList}
             </div>
-            :
-            <div>
-              <input value={this.state.room} onChange={e => {
-                this.setState({
-                  room: e.target.value
-                })
-              }} />
-              <button onClick={this.joinRoom}>Join</button>
-            </div>
-        }
+            <button>Invite friends</button>
+            <br/><br/>
+            <Link to={'/active-event'}><button>START</button></Link>
             </div>
         )
     }
 }
-export default NewEvent;
+
+function mapStateToProps(state){
+  return{
+      user: state.user,
+      friends: state.friends
+  }
+}
+
+export default connect(mapStateToProps, {})(NewEvent);
 
 
-// New Event
-// <br/><br/>
-// Will you be hosting this event?   
-// <select>
-//     <option value="no">No</option>
-//     <option value="yes">Yes</option>
-// </select>
-// <br/><br/>
-// <h1>Guest List:</h1>
 
-// <div className="list-container">
-//     Friends list (delete options)
-// </div>
-// <button>Invite friends</button>
-// <br/><br/>
-// <Link to={'/active-event'}><button>START</button></Link>

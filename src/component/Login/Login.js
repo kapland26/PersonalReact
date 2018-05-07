@@ -1,4 +1,5 @@
 import React from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
 require('dotenv').config();
 
 export default function Login( props ) {
@@ -6,7 +7,7 @@ export default function Login( props ) {
     return(
         <div className="Login">
             <a href={process.env.REACT_APP_LOGIN}>
-                <button>Login</button>
+                <RaisedButton label="Login" primary={true} />
             </a>
         </div>
     )

@@ -3,14 +3,45 @@
 }
 
 .App ul{
-  background:#0828CC;
+  background:black;
   height: 50px;
   color: white;
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin-bottom: 15px;
+  font-family: 'Montserrat', sans-serif;
 }
+
+.list-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-container li{
+  font-size: 15px;
+  margin-left: 20px;
+}
+
+.title-container{
+  display : flex;
+  font-weight: 400;
+  font-family: 'Nunito', sans-serif;
+  align-items: center;
+}
+.title-container h1{
+  margin-left: 10px;
+  font-size: 25px;
+}
+
+.App img{
+  height: 30px;
+  width:auto;
+  left:0;
+  right:0;
+}
+
 a {
    color: inherit; 
 } 

@@ -1,0 +1,10 @@
+.FriendContainer{
+    background: #EC576B;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap; 
+    margin-bottom: 10px;
+}

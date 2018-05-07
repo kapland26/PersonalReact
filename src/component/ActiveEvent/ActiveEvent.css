@@ -1,13 +1,22 @@
 .guest-list{
     margin: auto;
     background: red;
-    padding-top:30px;
-    padding-bottom:30px;
-    width: 200px;
+    padding-top:10px;
+    padding-bottom:10px;
+    width: 170px;
 }
 .ActiveEvent img{
     height: 50px;
     width:auto;
     left:0;
     right:0;
+}
+.messageContainer{
+    color: white;
+}
+.chatContainer{
+    height: 200px;
+    width:200px;
+    background:  purple;
+    margin: auto;
 }

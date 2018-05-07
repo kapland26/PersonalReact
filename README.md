@@ -1,26 +1,36 @@
-To Do TODAY:
-    - Display added friends on friends page
-    - Delete friends from friends page
-    - Events??
+TOMORROW: 
+    1. Active event page memory leak
+    2. Put socketsw back in and ask yeven about problem
+    3. Ask kevin about material UI next
+    - Create new event (non host)
+    - Create new event (host)
 
 To Do Eventually:
     - Semantic UI
+    - Get rid of github, make test google accounts with pictures and integrate into code
     - On event invite, show guest list and maybe a description?
     - Conditional display/change info on user info (delete option)
     - Host condition for active event
-    - Change active event into list of invites and info, delete option that DOESNT count as leaving
     - Update user settings, delete account
     - check unique usernames, do not allow log-in click unless both boxes filled
     - show if friends already in an event on invite list
     - Some kind of alert when event is left
 
 MAYBE do:
+    - Refresh home/ list disappearance problem (putting redux calls in app.js)
+    - Nice login page with title in middle and no nav bar
+    - Change settings
+    - Make attend buttons inaccessable when active event
     - Restrict access to pages when not logged in
     - Do not allow adding of self/current friends to friends list
     - Mutual friendship
     - search database without case
     - Timer on event leave
-    - Chat room
+
+Colors: black
+    pink: #EC576B
+    aqua: #4EC5C1
+    lime: #ESE338
 
 Routes:
 <Route exact path='/' component={Home} />

@@ -88,6 +88,7 @@ app.put('/user/updateEvent', uc.updateEvent);
 
 app.get('/friends/get', fc.getAll);
 app.post('/friend', fc.add);
+app.delete('/friend', fc.delete)
 
 app.get('/events', ec.getInvites);
 app.get('/event/getInfo', ec.getEventInfo);
@@ -100,27 +101,31 @@ app.get('/logout', function(req, res){
     res.redirect('http://localhost:3000')
 })
 
-// app.listen(SERVER_PORT, () =>
-//     console.log(`Listening on port: ${SERVER_PORT}`));
-
 const io = socket(app.listen(SERVER_PORT, () => console.log(`Listening on port ${SERVER_PORT}`)));
 
-io.on('connection', socket => {
-  // EVERYONE IN THE ROOM
-  socket.on('join room', data => {
-    console.log('Room joined', data.room)
-    socket.join(data.room);
-    io.to(data.room).emit('room joined');
-  })
-  socket.on('message sent', data => {
-      console.log("Inside message sent, ")
-    io.to(data.room).emit('message dispatched', data.message);
-  })
+// const io = socket(app.listen(SERVER_PORT, () => console.log(`Listening on port ${SERVER_PORT}`)));
 
-  socket.on('disconnect', () => {
-    console.log('User Disconnected');
-  })
-});
+// io.on('connection', socket => {
+//   // EVERYONE IN THE ROOM
+//   socket.on('join room', data => {
+//     console.log('Room joined', data.room)
+//     socket.join(data.room);
+//     io.to(data.room).emit('room joined');
+//   })
+//   socket.on('message sent', data => {
+//       console.log("Inside message sent, ", data.message)
+//     io.to(data.room).emit('message dispatched', data.message);
+//   })
+
+//   socket.on('disconnect', () => {
+//     console.log('User Disconnected');
+//   })
+
+//   socket.on('leave room', data => {
+//     console.log('User Left Room');
+//     socket.leave(data.room);
+//   })
+// });
 
 
 //  http://localhost:3005/auth
