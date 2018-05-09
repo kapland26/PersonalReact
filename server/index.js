@@ -2,6 +2,7 @@ const express = require('express')
     , session = require('express-session')
     , passport = require('passport')
     , Auth0Strategy = require('passport-auth0')
+    , bodyParser = require('body-parser')
     , socket = require('socket.io')
     , massive = require('massive');
 require('dotenv').config();
@@ -21,6 +22,8 @@ const {
     CALLBACK_URL,
     CONNECTION_STRING,
 } = process.env;
+
+app.use( bodyParser.json() );
 
 massive(CONNECTION_STRING).then( db=> {
     app.set('db', db);
@@ -43,7 +46,7 @@ passport.use( new Auth0Strategy({
     scope: "openid profile"
    }, function(accessToken, refreshToken, extraParams, profile, done) {
     const db = app.get('db')
-    console.log("Profile: ",profile)
+    // console.log("Profile: ",profile)
     const {id, name, picture} = profile;
     db.users.find_user([id]).then( users =>{
         if(users[0]){//Will return in array
@@ -74,7 +77,7 @@ app.get('/auth/callback', passport.authenticate('auth0', {
     failureRedirect: 'http://localhost:3000'
 }))
 app.get('/auth/me', function(req, res){
-    console.log("Current user: ",req.user)
+    // console.log("Current user: ",req.user)
     if( req.user) { //req.user is logged in user
         res.status(200).send(req.user);
     } else{

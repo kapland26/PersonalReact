@@ -109,8 +109,12 @@ export function getEventInvites(userId){
         payload: inviteData
     }
 }
-export function createEvent(users_invited, host, users){
-    let eventData = axios.post(`/event?users_invited=${users_invited}&host=${host}&users=${users}`).then(res => {
+export function createEvent(end_user_amount, users_invited, host, usersIn){
+    let body = {
+        users: usersIn
+    }
+    console.log("Inside reducer: ",usersIn)
+    let eventData = axios.post(`/event?end_user_amount=${end_user_amount}&users_invited=${users_invited}&host=${host}`, body).then(res => {
         return res.data[0];
     })
     return{

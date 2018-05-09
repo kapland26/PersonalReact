@@ -26,18 +26,44 @@ module.exports = {
     },
     create: (req, res) => {
         let {user_id} = req.user;
-        const {users_invited, host, users} = req.query;
-        console.log("Info= ",users_invited, host);
+        const {end_user_amount, users_invited, host} = req.query;
+        let {users} = req.body;
+        users.push(user_id);
+        console.log("users: ", users);
+
+        console.log("Info= ",end_user_amount, users_invited, host);
         let hostInput = null;
-        if(host===true){
+        if(host==="true"){
+            console.log("We should be in here")
             hostInput = user_id;
         }
         console.log("host input= ", hostInput)
+        
         const db = req.app.get('db')
-        db.events.create_event([users_invited, users_invited, hostInput]).then( () =>{
-            db.events.get_event_info([event_id]).then( (event) =>{
-                res.status(200).send(event);
-            })
+        db.events.create_event([end_user_amount, users_invited, users_invited, hostInput]).then( (event) =>{
+            let theStack = [];
+            for(var i=0; i<users.length; i++){
+                theStack.push(db.attendance.create_attendance([event[0].lastval,users[i]]))
+            }
+            Promise.all(theStack).then(()=>{
+               //Update logged-in user's current event
+                db.users.update_event([event[0].lastval, user_id]).then( () =>{
+                    db.events.get_event_info([event[0].lastval]).then( (event1) =>{
+                        res.status(200).send(event1);
+                    })
+                    .catch( (err) => {
+                        console.log(err)
+                        res.status(500).send(err) 
+                    });  
+                })
+                .catch( (err) => {
+                    console.log(err)
+                    res.status(500).send(err) 
+                }); 
+            }).catch( (err) => {
+                console.log(err)
+                res.status(500).send(err) 
+            });  
         })
     },
     leave:  (req, res) => {
