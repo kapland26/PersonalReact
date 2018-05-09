@@ -31,8 +31,6 @@ class AddFriends extends Component {
     handleSearch(){
         console.log("Inside handle search!")
         axios.get(`/users?${this.state.select}=${this.state.input}`).then( res => {
-            console.log("Inside res function")
-            console.log(res.data[0].user_id)
             this.setState({
                 searchResults : res.data
             })
@@ -44,7 +42,8 @@ class AddFriends extends Component {
 
     handleAddFriend(user_id){
         console.log("new user: ",user_id);
-        console.log("current user: ", this.props.user.user_id);
+        let user = this.props.user || {};
+        console.log("current user: ", user.user_id);
         let user1_id="";
         let user2_id="";
 

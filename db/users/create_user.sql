@@ -1,5 +1,5 @@
 INSERT INTO users
-(auth_id, email, img)
+(auth_id, img)
 VALUES
-($1, $2, $3)
+($1, $2)
 RETURNING *;

@@ -43,12 +43,13 @@ passport.use( new Auth0Strategy({
     scope: "openid profile"
    }, function(accessToken, refreshToken, extraParams, profile, done) {
     const db = app.get('db')
-    const {id, displayName, picture} = profile;
+    console.log("Profile: ",profile)
+    const {id, name, picture} = profile;
     db.users.find_user([id]).then( users =>{
         if(users[0]){//Will return in array
             return done(null, users[0].user_id)
         }else{
-            db.users.create_user([ id, displayName, picture]).then(createdUser=> {
+            db.users.create_user([ id, picture]).then(createdUser=> {
                 return done(null, createdUser[0].user_id)
             })
         }
@@ -73,7 +74,7 @@ app.get('/auth/callback', passport.authenticate('auth0', {
     failureRedirect: 'http://localhost:3000'
 }))
 app.get('/auth/me', function(req, res){
-    //console.log("Current user: ",req.user)
+    console.log("Current user: ",req.user)
     if( req.user) { //req.user is logged in user
         res.status(200).send(req.user);
     } else{
@@ -81,9 +82,9 @@ app.get('/auth/me', function(req, res){
     }
 })
 
-app.put('/auth/me',uc.updateInfo);
+app.put('/user/updateInfo',uc.updateInfo);
 app.get('/users', uc.searchUsers);
-app.get('/user', uc.getUser);
+app.get('/user', uc.getUser); 
 app.put('/user/updateEvent', uc.updateEvent);
 
 app.get('/friends/get', fc.getAll);
@@ -92,7 +93,9 @@ app.delete('/friend', fc.delete)
 
 app.get('/events', ec.getInvites);
 app.get('/event/getInfo', ec.getEventInfo);
+app.post('/event', ec.create);
 app.put('/event/leave', ec.leave);
+app.delete('/event/delete', ec.delete);
 
 app.delete('/attendance', ac.rejectEvent);
 
@@ -103,29 +106,27 @@ app.get('/logout', function(req, res){
 
 const io = socket(app.listen(SERVER_PORT, () => console.log(`Listening on port ${SERVER_PORT}`)));
 
-// const io = socket(app.listen(SERVER_PORT, () => console.log(`Listening on port ${SERVER_PORT}`)));
+io.on('connection', socket => {
+  // EVERYONE IN THE ROOM
+  socket.on('join room', data => {
+    console.log('Room joined', data.room)
+    socket.join(data.room);
+    io.to(data.room).emit('room joined');
+  })
+  socket.on('message sent', data => {
+      console.log("Inside message sent, ", data.message)
+      if(data.message==="%END%"){
+          console.log("Inside if statement!")
+      }
+    io.to(data.room).emit('message dispatched', data.message);
+  })
 
-// io.on('connection', socket => {
-//   // EVERYONE IN THE ROOM
-//   socket.on('join room', data => {
-//     console.log('Room joined', data.room)
-//     socket.join(data.room);
-//     io.to(data.room).emit('room joined');
-//   })
-//   socket.on('message sent', data => {
-//       console.log("Inside message sent, ", data.message)
-//     io.to(data.room).emit('message dispatched', data.message);
-//   })
+  socket.on('disconnect', () => {
+    console.log('User Disconnected');
+  })
 
-//   socket.on('disconnect', () => {
-//     console.log('User Disconnected');
-//   })
-
-//   socket.on('leave room', data => {
-//     console.log('User Left Room');
-//     socket.leave(data.room);
-//   })
-// });
-
-
-//  http://localhost:3005/auth
+  socket.on('leave room', data => {
+    console.log('User Left Room');
+    socket.leave(data.room);
+  })
+});

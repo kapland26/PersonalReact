@@ -5,12 +5,15 @@ module.exports = {
 
         // console.log("inside update info ", username, name)
         const db = req.app.get('db')
-        db.users.update_user([username, name, user_id]).then( () =>
-            res.status(200).send())
+        db.users.update_user([username, name, user_id]).then( () => {
+            db.users.get_user([user_id]).then( (user) =>{
+                res.status(200).send(user);
+            })
             .catch( (err) => {
                 console.log(err)
                 res.status(500).send(err) 
-            });      
+            });  
+        })
     },
     searchUsers: (req, res) => {
         let { username, name, email} = req.query;

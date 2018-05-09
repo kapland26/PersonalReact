@@ -1,9 +1,28 @@
 .FriendContainer{
-    background: turquoise;
+    width:50vw;
+    height: 50px;
+    margin: auto;
+    overflow:hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.FriendContainer .UserInfoContainer{
+    margin-left: 20px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    flex-wrap: wrap; 
-    margin-bottom: 10px;
+}
+
+.FriendContainer p{
+    margin-right: 10px;
+}
+
+.FriendContainer h2{
+    font-weight: 100;
+    font-style: italic;
 }

@@ -1,45 +1,50 @@
-TOMORROW: 
-    1. Active event page memory leak
-    2. Put socketsw back in and ask yeven about problem
-    3. Ask kevin about material UI next
-    - Create new event (non host)
-    - Create new event (host)
+5/7 Day:
+1. Generate list with material ui
+2. working current event, new event
+3. Scrollbar
 
 To Do Eventually:
-    - Semantic UI
-    - Get rid of github, make test google accounts with pictures and integrate into code
-    - On event invite, show guest list and maybe a description?
+    - On event invite, show guest list and maybe a description, no eventInfo
     - Conditional display/change info on user info (delete option)
     - Host condition for active event
     - Update user settings, delete account
     - check unique usernames, do not allow log-in click unless both boxes filled
     - show if friends already in an event on invite list
     - Some kind of alert when event is left
+    - Make friend images round
+
+UI: 
+    - integrate user info and pictures into code
+    - Check boxes on add friends
+    - Make attend buttons inaccessable when active event
 
 MAYBE do:
+    - Prevent reading same friend
     - Refresh home/ list disappearance problem (putting redux calls in app.js)
     - Nice login page with title in middle and no nav bar
     - Change settings
-    - Make attend buttons inaccessable when active event
     - Restrict access to pages when not logged in
     - Do not allow adding of self/current friends to friends list
     - Mutual friendship
     - search database without case
     - Timer on event leave
+    - Delete account
 
 Colors: black
     pink: #EC576B
     aqua: #4EC5C1
     lime: #ESE338
 
-Routes:
-<Route exact path='/' component={Home} />
-<Route path='/active-event' component={ActiveEvent}/>
-<Route path='/friends' component={Friends}/>
-<Route path='/add-friends' component={AddFriends}/>
-<Route path='/new-event' component={NewEvent}/>
-<Route path='/invite-friends' component={InviteFriends}/>
-<Route path='/user-info' component={UserInfo}/>
+    red400: #EF5350
+    teal300: #4DB6AC
+    limeA200: #EEFF41
+
+Google accounts to test with:
+    kapland26@gmail.com
+    kapland26backup@gmail.com
+    deniz.kaplan@kaplanbg.com
+    dktestaccount1@gmail.com
+    dktestaccount2@gmail.com
 
 nodemon --watch /server
 

@@ -2,6 +2,7 @@
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: 500;
+  background:#EEEEEE;
 }
 
 .NewEvent h1{
@@ -9,15 +10,50 @@
     font-weight: 700;
 }
 
+.NewEvent h2{
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.NewEvent h3{
+    font-style: italic;
+}
+
 .NewEvent select{
     margin-left: 10px;
 }
 
 .NewEvent .list-container{
-    background: #E5E338;
+    background: white;
+    width:50vw;
+    margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap; 
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+
+.NEFriendContainer{
+    width: 45vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; 
+    margin-bottom: 10px;
+}
+
+.NewEvent .userInfoContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap; 
+}
+
+.NewEvent .userInfoContainer p{
+    padding-right: 10px;
 }

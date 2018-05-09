@@ -1,20 +1,19 @@
 import './NEFriendContainer.css';
 import React from 'react';
-import IconButton from 'material-ui/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import Checkbox from 'material-ui/Checkbox';
 
-
-export default function FriendContainer( props ) {
+export default function NEFriendContainer( props ) {
 
     return(
-        <div className="FriendContainer">
+        <div className="NEFriendContainer">
             <p>Name: {props.name}</p>
             <p>Username: {props.username}</p>
             <p>Image: <img src={props.image} alt="profile"/></p>
-            <IconButton aria-label="Delete">
-            <DeleteIcon onClick={()=> props.handleDelete(props.user_id)}/>
-            </IconButton>
-            {/* <button onClick={()=>props.handleAddFriend(props.user_id)}>Add</button><br/><br/><br/> */}
+            <Checkbox
+                checked={this.state.checkedA}
+                onChange={this.handleChange('checkedA')}
+                value="checkedA"
+            />
         </div>
     )
 

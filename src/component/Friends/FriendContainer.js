@@ -8,10 +8,11 @@ export default function FriendContainer( props ) {
 
     return(
         <div className="FriendContainer">
-            <p>Name: {props.name}</p>
-            <p>Email: {props.email}</p>
-            <p>Username: {props.username}</p>
-            <p>Image: <img src={props.image} alt="profile"/></p>
+            <div className="UserInfoContainer">
+                <p><img src={props.image} alt="profile"/></p>
+                <p>{props.name}</p> 
+                <h2> <p>( {props.username} )</p></h2>
+            </div>  
             <IconButton aria-label="Delete">
             <DeleteIcon onClick={()=> props.handleDelete(props.user_id)}/>
             </IconButton>

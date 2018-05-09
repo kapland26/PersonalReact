@@ -1,15 +1,36 @@
-import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
+import React, { Component }  from 'react';
+import Button from 'material-ui/Button';
+import { withStyles} from 'material-ui/styles';
+import PropTypes from "prop-types";
 require('dotenv').config();
+  
+class Login extends Component {
+    
+    render(){
 
-export default function Login( props ) {
-
+        const {classes} = this.props;
     return(
         <div className="Login">
             <a href={process.env.REACT_APP_LOGIN}>
-                <RaisedButton label="Login" primary={true} />
+                <Button className={classes.button} variant="raised">LOGIN</Button>
             </a>
         </div>
-    )
+      )
+    }
+
 
 }
+
+const styles = {
+    button: {
+      color: "white",
+      backgroundColor: "#EF5350",
+      fontFamily: 'Montserrat',
+    }
+  }
+
+Login.propTypes = {
+    classes: PropTypes.object.isRequired
+}
+
+export default withStyles(styles)(Login);

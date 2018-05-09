@@ -2,16 +2,22 @@ import axios from 'axios';
 
 const initialState = {
     user: null,
+    infoChanged: false,
     activeEvent: {},
     friends: [],
     invites: []
 }
 
 const GET_USER_INFO = 'GET_USER_INFO';
+const SET_USER_INFO = 'SET_USER_INFO';
+const CHANGE_INFO_STATUS = 'CHANGE_INFO_STATUS';
 const GET_ACTIVE_EVENT = 'GET_ACTIVE_EVENT';
 const SET_ACTIVE_EVENT = 'SET_ACTIVE_EVENT';
 const GET_FRIENDS = 'GET_FRIENDS';
 const GET_EVENT_INVITES = 'GET_EVENT_INVITES';
+const CREATE_EVENT = 'CREATE_EVENT';
+const LEAVE_EVENT = 'LEAVE_EVENT';
+const DELETE_EVENT = 'DELETE_EVENT';
 
 function reducer(state = initialState, action){ 
 //    console.log("In reducer, action = "+action.type+", payload: "+action.payload)
@@ -19,6 +25,11 @@ function reducer(state = initialState, action){
         case GET_USER_INFO+'_FULFILLED':
             // console.log("got user, payload: ", action.payload)
             return Object.assign({}, state, {user: action.payload})  
+        case SET_USER_INFO+'_FULFILLED':
+            return Object.assign({}, state, {user: action.payload})
+        case CHANGE_INFO_STATUS:
+            console.log("In change info status, ", action.payload)
+            return Object.assign({}, state, {infoChanged: action.payload})
         case GET_ACTIVE_EVENT+'_FULFILLED':
             return Object.assign({}, state, {activeEvent: action.payload})
         case SET_ACTIVE_EVENT+'_FULFILLED':
@@ -27,6 +38,12 @@ function reducer(state = initialState, action){
             return Object.assign({}, state, {friends: action.payload})
         case GET_EVENT_INVITES+'_FULFILLED':
             return Object.assign({}, state, {invites: action.payload})
+        case CREATE_EVENT+'FULFILLED':
+            return Object.assign({}, state, {activeEvent: action.payload})
+        case LEAVE_EVENT+'_FULFILLED':
+            return Object.assign({}, state, {activeEvent: action.payload})
+        case DELETE_EVENT+'_FULFILLED':
+            return Object.assign({}, state, {activeEvent: action.payload})
         default:
             return state;
     }
@@ -39,6 +56,21 @@ export function getUser(){
     return {
         type: GET_USER_INFO,
         payload: userData
+    }
+}
+export function setUser(username, name){
+    let userData = axios.put(`/user/updateInfo/?username=${username}&name=${name}`).then( res =>{
+            return res.data;
+    })
+    return {
+        type: GET_USER_INFO,
+        payload: userData
+    }
+}
+export function changeInfoStatus(status){
+    return {
+        type: CHANGE_INFO_STATUS,
+        payload: status
     }
 }
 export function getActiveEvent(eventId){
@@ -77,5 +109,32 @@ export function getEventInvites(userId){
         payload: inviteData
     }
 }
-
+export function createEvent(users_invited, host, users){
+    let eventData = axios.post(`/event?users_invited=${users_invited}&host=${host}&users=${users}`).then(res => {
+        return res.data[0];
+    })
+    return{
+        type: CREATE_EVENT,
+        payload: eventData
+    }
+}
+export function leaveEvent(event_id, users_remaining){
+    let eventData = axios.put(`/event/leave?event_id=${event_id}&users_remaining=${users_remaining}`).then( res => {
+        return res.data[0];
+    })
+    return{
+        type: LEAVE_EVENT,
+        payload: eventData
+    }
+}
+export function deleteEvent(event_id){
+    let eventData = {};
+    axios.delete(`/event/delete?event_id=${event_id}`).then( () => {
+        console.log("Event deleted!")
+    })
+    return{
+        type: DELETE_EVENT,
+        payload: eventData
+    }
+}
 export default reducer;

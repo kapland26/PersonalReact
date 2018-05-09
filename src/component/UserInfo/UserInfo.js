@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {Link, Redirect} from 'react-router-dom';
+// import {red400, teal300, limeA200, black} from 'material-ui/styles/colors';
 import {connect} from 'react-redux';
-import {getUser} from './../../ducks/reducer.js'
+import {getUser, setUser, changeInfoStatus} from './../../ducks/reducer.js'
+import './UserInfo.css';
+
+import TextField from 'material-ui/TextField';
+import Button from 'material-ui/Button';
+import { withStyles} from 'material-ui/styles';
+import PropTypes from "prop-types";
 
 class UserInfo extends Component {
 
@@ -11,37 +18,51 @@ class UserInfo extends Component {
 
         this.state={
             usernameIn: "",
-            nameIn:""
+            nameIn:"",
+            emailIn:"",
         }
     }
 
     componentDidMount(){
         this.props.getUser();
+        const user = this.props.user||{} 
+        this.setState({
+            nameIn: user.name
+        })
     }
 
     handleUsernameIn(e){
+        console.log("In 1 in")
         this.setState({
             usernameIn: e
         })
     }
 
     handleNameIn(e){
+        console.log("In 2 in")
         this.setState({
             nameIn: e
         })
     }
 
     handleSave(){
-        axios.put(`/auth/me/?username=${this.state.usernameIn}&name=${this.state.nameIn}`).then( () => {}).catch(function (error) {
-            console.log("Error updating user data");
-        });
+        this.props.setUser(this.state.usernameIn, this.state.nameIn);
+        this.props.changeInfoStatus(true);
         this.setState({
             usernameIn: "",
-            nameIn:""
+            nameIn:"",
+            emailIn:""
         })
     }
 
+    handleChange = name => event => {
+        this.setState({
+          [name]: event.target.value,
+        });
+      };
+
     render(){
+        const {classes} = this.props;
         const user = this.props.user||{} 
         if(user && user.username!=null){
             console.log(user.username)
@@ -49,27 +70,61 @@ class UserInfo extends Component {
         }
         return(
             <div className = "UserInfo">
-                Please provide some information to help your friends find you:
+                <h1>Please provide some information to help your friends find you:</h1>
+                <br/>
+                <TextField  
+                    id="usernameIn"
+                    label="Username *"
+                    className={classes.textField}
+                    onChange={(e)=>this.handleUsernameIn(e.target.value)}
+                    value={this.state.usernameIn} 
+                    margin= "dense" 
+                />
                 <br/><br/>
-                *Username:<br/>
-                <input onChange={(e)=>this.handleUsernameIn(e.target.value)} type="text" value={this.state.usernameIn}/>
+               
+                <TextField
+                    id="nameIn"
+                    label="Name *"
+                    className={classes.textField}
+                    onChange={(e)=>this.handleNameIn(e.target.value)}
+                    value={this.state.nameIn}
+                    margin= "dense" 
+                /> 
                 <br/><br/>
-                *Name:<br/>
-                <input onChange={(e)=>this.handleNameIn(e.target.value)} type="text" value={this.state.nameIn} />
+                <TextField
+                    id="email"
+                    label="Email "
+                    className={classes.textField}
+                    onChange={(e)=>this.handleNameIn(e.target.value)}
+                    value={this.state.emailIn} 
+                    margin= "dense" 
+                />
                 <br/><br/>
-                <Link to={'/home'}><button onClick={()=> this.handleSave()}> SAVE</button></Link>
-                
+                <Link to={'/home'}><Button onClick={()=> this.handleSave()}className={classes.button} variant="fab"> ✔ </Button></Link>
                 {/* <br/><br/>
                 <button>Delete account</button> */}
             </div>
         )
     }
 }
-
 function mapStateToProps(state){
     return{
         user: state.user
     }
 }
+const styles = {
+    button: {
+        color: "white",
+        backgroundColor: "#EF5350",
+        fontFamily: 'Montserrat',
+    },
+    textField: {
+        color: "#EF5350",
+    },
+  }
 
-export default connect(mapStateToProps, {getUser})(UserInfo);
+UserInfo.propTypes = {
+    classes: PropTypes.object.isRequired
+}
+UserInfo = withStyles(styles, {name: 'UserInfo'})(UserInfo);
+export default connect(mapStateToProps, {getUser, setUser, changeInfoStatus})(UserInfo);

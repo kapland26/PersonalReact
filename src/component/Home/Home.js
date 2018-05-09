@@ -3,9 +3,13 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {Link,  Redirect} from 'react-router-dom';
-import {getUser, getFriends, getEventInvites, setActiveEvent} from './../../ducks/reducer.js';
-import RaisedButton from 'material-ui/RaisedButton';
+import {getUser, changeInfoStatus, getFriends, getEventInvites, setActiveEvent} from './../../ducks/reducer.js';
 import ListInvitesContainer from './ListInvitesContainer.js';
+
+import Button from 'material-ui/Button';
+import { withStyles} from 'material-ui/styles';
+import PropTypes from "prop-types"
+
 
 class Home extends Component {
 
@@ -21,17 +25,20 @@ class Home extends Component {
     }
 
     componentDidMount(){
-        this.props.getUser();
+        if(this.props.infoChanged===true){
+            this.props.getUser();
+            this.props.changeInfoStatus(false);
+        }
         const user = this.props.user || {}
         this.props.getEventInvites(user.user_id);
         this.props.getFriends(user.user_id);
     }
 
-    componentDidUpdate(oldProps, newProps){
-        if(oldProps !== newProps){
-        // console.log("Inside component did update")
-        }
-    }
+    // componentDidUpdate(oldProps, newProps){
+    //     if(oldProps !== newProps){
+    //     // console.log("Inside component did update")
+    //     }
+    // }
 
     deleteEventInvite(event, usersInvited){
         console.log("Inside deleteEventInvite, event= ", event, " users_invited = ", usersInvited)
@@ -59,6 +66,8 @@ class Home extends Component {
     }
 
     render(){
+        const {classes} = this.props;
+
         if(this.state.redirect===true){
             this.toggleRedirect(false)
             return <Redirect to='/active-event'/>
@@ -66,9 +75,12 @@ class Home extends Component {
         // let {display_name, img, auth_id} = this.props.user;
         const user = this.props.user||{} 
         let invitesList = this.props.invites.map((val, i)=>{
+        // let testList = [1, 2, 3];
+        // let invitesList = testList.map( v(val, i)=>{
             return (
                 <div className="invitesContainer" key={i}>
                     <ListInvitesContainer deleteEventInvite={this.deleteEventInvite} updateActiveEvent={this.updateActiveEvent} event_id={val.event_id} users_invited={val.users_invited} users_remaining={val.users_remaining} host={val.host? "Host Event": "No Host"}/>
+                    {/* <ListInvitesContainer deleteEventInvite={this.deleteEventInvite} updateActiveEvent={this.updateActiveEvent} event_id={"1"} users_invited={3} users_remaining={3} host={ "No Host"}/> */}
                 </div>
             )
         })
@@ -78,20 +90,35 @@ class Home extends Component {
                 <br/><br/>
                 Welcome, {user.name}! 
                 <br/><br/>
-                Pending Events:<br/><br/>
+                <div className="pendingEventContainer">
+                    <div className="pendingEventTitleContainer">
+                        Pending Events:
+                    </div>
                 {invitesList}
+                </div>
                 <br/><br/>
-                <Link to={'/new-event'}><RaisedButton label="START NEW EVENT" primary={true} background={'red'} /></Link>
+                <Link to={'/new-event'}><Button className={classes.button} variant="raised">START NEW EVENT</Button></Link>
             </div>
         )
     }
 }
-
 function mapStateToProps(state){
     return{
         user: state.user,
+        infoChanged: state.infoChanged,
         invites: state.invites
     }
 }
+const styles = {
+    button: {
+      color: "white",
+      backgroundColor: "#EF5350",
+      fontFamily: 'Montserrat',
+    }
+}
+Home.propTypes = {
+    classes: PropTypes.object.isRequired
+}
 
-export default connect(mapStateToProps, {getUser, getFriends, getEventInvites, setActiveEvent})(Home);
+Home = withStyles(styles, {name: 'Home'})(Home);
+export default connect(mapStateToProps, {getUser, changeInfoStatus, getFriends, getEventInvites, setActiveEvent})(Home);
