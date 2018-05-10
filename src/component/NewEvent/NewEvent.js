@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
-import axios from 'axios';
 import {createEvent} from './../../ducks/reducer.js';
 
 import './NewEvent.css';
@@ -59,6 +58,7 @@ class NewEvent extends Component {
         let invitees = this.state.invitedId.length+1
         let endUserAmount= invitees - Math.floor(invitees*.01*this.state.endPercent);
         let host= this.state.hostEvent;
+        console.log("EUA: ", endUserAmount, " , invitees: ", invitees, ", host: ", host," , usersIn: ", usersIn)
         this.props.createEvent(endUserAmount, invitees, host, usersIn);
     }
 
@@ -77,6 +77,11 @@ class NewEvent extends Component {
 
     render(){
         const {classes} = this.props;
+
+        console.log(this.props.redir)
+        if(this.props.redir===true){
+            return <Redirect to='/active-event'/>
+        }
 
         // let testList = [0, 1, 2, 3];
         // var friendList = testList.map((val, i)=> {
@@ -99,7 +104,6 @@ class NewEvent extends Component {
         })  
 
         var inviteList = this.state.invitedName.map((val, i)=>{
-            console.log("Inside invited name map, val= ", val)
             return (
                 <div className="NEInviteContainer" key={i}>
                     <p> {val} </p>
@@ -111,10 +115,11 @@ class NewEvent extends Component {
             <div className = "NewEvent">
             <h1>New Event</h1><br/>
             Will you be hosting this event?   
-            <Select className={classes.select}
+            <Select 
+                className={classes.select}
                 value={this.state.hostEvent}
-                onChange={(e)=>this.handleHost(e.target.value)}
-                ><MenuItem value={false}>
+                onChange={(e)=>this.handleHost(e.target.value)}>
+                <MenuItem value={false}>
                 <em>No</em>
                 </MenuItem>
                 <MenuItem value={true}>Yes</MenuItem>
@@ -126,8 +131,7 @@ class NewEvent extends Component {
                 <Select
                     value={this.state.endPercent}
                     onChange={(e)=>this.handleEndPercent(e.target.value)}
-                    className={classes.select}
-                >
+                    className={classes.select}>
                     <MenuItem value={25}>
                     <em>25%</em>
                     </MenuItem>
@@ -146,7 +150,7 @@ class NewEvent extends Component {
             <div className="list-container">
                 {friendList}
             </div>
-            <Link to={'/active-event'}><Button  onClick={()=>this.handleInvite()} className={classes.button} variant="raised">START</Button></Link>
+            <Button onClick={()=>this.handleInvite()} className={classes.button} variant="raised">START</Button>
             </div>
         )
     }
@@ -155,7 +159,8 @@ class NewEvent extends Component {
 function mapStateToProps(state){
   return{
       user: state.user,
-      friends: state.friends
+      friends: state.friends,
+      redir: state.redir
   }
 }
 const styles = {

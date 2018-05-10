@@ -50,3 +50,14 @@
     flex-direction: column;
     justify-content: flex-start;
 }
+
+.ActiveEvent .leave{
+    height: 80vh;
+    width: 80vw;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 90px;
+}

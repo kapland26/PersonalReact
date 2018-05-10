@@ -1,34 +1,24 @@
-5/7 Day:
-1. Generate list with material ui
-2. working current event, new event
-3. Scrollbar
-
 To Do Eventually:
-    - On event invite, show guest list and maybe a description, no eventInfo
-    - Conditional display/change info on user info (delete option)
-    - Host condition for active event
-    - Update user settings, delete account
-    - check unique usernames, do not allow log-in click unless both boxes filled
-    - show if friends already in an event on invite list
+    - settings page with user info
     - Some kind of alert when event is left
-    - Make friend images round
+    - Restrict access to pages when not logged in
+    - Make sure socket issue is resolved
 
-UI: 
+To do UI: 
     - integrate user info and pictures into code
-    - Check boxes on add friends
-    - Make attend buttons inaccessable when active event
+    - Update info displayed on event list
+    - Nice login page with title in middle and no nav bar
 
 MAYBE do:
     - Prevent reading same friend
     - Refresh home/ list disappearance problem (putting redux calls in app.js)
-    - Nice login page with title in middle and no nav bar
-    - Change settings
-    - Restrict access to pages when not logged in
-    - Do not allow adding of self/current friends to friends list
-    - Mutual friendship
-    - search database without case
     - Timer on event leave
+
+Unrealistic goals:
+    - check unique usernames, do not allow log-in click unless both boxes filled
     - Delete account
+    - Do not allow adding of self/current friends to friends list
+    - Make attend buttons inaccessable when active event
 
 Colors: black
     pink: #EC576B

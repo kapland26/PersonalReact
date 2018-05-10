@@ -49,27 +49,13 @@ class Home extends Component {
     }
 
     updateActiveEvent(event){
-        this.props.setActiveEvent(event);     
-        this.toggleRedirect(true);
+        this.props.setActiveEvent(event, this.props.history);     
+        // this.toggleRedirect(true);
     }
-
-    toggleRedirect(inp){
-        if(inp===true){
-            this.setState({
-                redirect : true
-            })
-        }else{
-            this.setState({
-                redirect : false
-            })
-        }
-    }
-
     render(){
         const {classes} = this.props;
 
-        if(this.state.redirect===true){
-            this.toggleRedirect(false)
+        if(this.props.redir===true){
             return <Redirect to='/active-event'/>
         }
         // let {display_name, img, auth_id} = this.props.user;
@@ -106,7 +92,8 @@ function mapStateToProps(state){
     return{
         user: state.user,
         infoChanged: state.infoChanged,
-        invites: state.invites
+        invites: state.invites,
+        redir: state.redir
     }
 }
 const styles = {
@@ -114,6 +101,7 @@ const styles = {
       color: "white",
       backgroundColor: "#EF5350",
       fontFamily: 'Montserrat',
+      marginBottom: '10px'
     }
 }
 Home.propTypes = {

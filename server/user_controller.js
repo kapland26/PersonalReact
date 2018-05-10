@@ -77,6 +77,7 @@ module.exports = {
         const db = req.app.get('db');
         db.users.update_event([event_id, user_id]).then( () =>{
             db.events.get_event_info([event_id]).then( (event) =>{
+                console.log("Active event set, ", event_id)
                 res.status(200).send(event);
             })
             .catch( (err) => {

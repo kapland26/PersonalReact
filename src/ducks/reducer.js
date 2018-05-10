@@ -5,7 +5,8 @@ const initialState = {
     infoChanged: false,
     activeEvent: {},
     friends: [],
-    invites: []
+    invites: [],
+    redir: false
 }
 
 const GET_USER_INFO = 'GET_USER_INFO';
@@ -13,6 +14,8 @@ const SET_USER_INFO = 'SET_USER_INFO';
 const CHANGE_INFO_STATUS = 'CHANGE_INFO_STATUS';
 const GET_ACTIVE_EVENT = 'GET_ACTIVE_EVENT';
 const SET_ACTIVE_EVENT = 'SET_ACTIVE_EVENT';
+const RESET_ACTIVE_EVENT = 'RESET_ACTIVE_EVENT';
+const MAKE_REDIR_FALSE = 'MAKE_REDIR_FALSE';
 const GET_FRIENDS = 'GET_FRIENDS';
 const GET_EVENT_INVITES = 'GET_EVENT_INVITES';
 const CREATE_EVENT = 'CREATE_EVENT';
@@ -33,13 +36,18 @@ function reducer(state = initialState, action){
         case GET_ACTIVE_EVENT+'_FULFILLED':
             return Object.assign({}, state, {activeEvent: action.payload})
         case SET_ACTIVE_EVENT+'_FULFILLED':
+            return Object.assign({}, state, {activeEvent: action.payload, redir: true})
+        case RESET_ACTIVE_EVENT:
             return Object.assign({}, state, {activeEvent: action.payload})
+        case MAKE_REDIR_FALSE:
+            return Object.assign({}, state, {redir: action.payload})
         case GET_FRIENDS+'_FULFILLED':
             return Object.assign({}, state, {friends: action.payload})
         case GET_EVENT_INVITES+'_FULFILLED':
             return Object.assign({}, state, {invites: action.payload})
-        case CREATE_EVENT+'FULFILLED':
-            return Object.assign({}, state, {activeEvent: action.payload})
+        case CREATE_EVENT+'_FULFILLED':
+            console.log("redir should be true!")
+            return Object.assign({}, state, {activeEvent: action.payload, redir: true})
         case LEAVE_EVENT+'_FULFILLED':
             return Object.assign({}, state, {activeEvent: action.payload})
         case DELETE_EVENT+'_FULFILLED':
@@ -82,13 +90,27 @@ export function getActiveEvent(eventId){
         payload: eventData
     }
 }
-export function setActiveEvent(eventId){
+export function setActiveEvent(eventId, hist){
     let eventData = axios.put(`/user/updateEvent?event_id=${eventId}`).then(res => {
+        hist.push('/active-event');
+        console.log("data", res.data)
         return res.data[0];
     })
     return {
         type: SET_ACTIVE_EVENT,
         payload: eventData
+    }
+}
+export function resetActiveEvent(){
+    return {
+        type: RESET_ACTIVE_EVENT,
+        payload: null
+    }
+}
+export function  makeRedirFalse(){
+    return{
+        type: MAKE_REDIR_FALSE,
+        payload: false
     }
 }
 export function getFriends(userId){

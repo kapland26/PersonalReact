@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import {Link, Redirect} from 'react-router-dom';
 // import {red400, teal300, limeA200, black} from 'material-ui/styles/colors';
 import {connect} from 'react-redux';
@@ -92,7 +91,7 @@ class UserInfo extends Component {
                 /> 
                 <br/><br/>
                 <TextField
-                    id="email"
+                    id="emailIn"
                     label="Email "
                     className={classes.textField}
                     onChange={(e)=>this.handleNameIn(e.target.value)}

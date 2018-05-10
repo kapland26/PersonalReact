@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import {connect} from 'react-redux'; 
 import io from 'socket.io-client';
 import './ActiveEvent.css';
 import peace from './peace-temp.png';
 import wait from './wait.png';
-import {getUser, getFriends, getActiveEvent, leaveEvent, deleteEvent} from './../../ducks/reducer.js';
+import {getUser, getFriends, getActiveEvent, resetActiveEvent, makeRedirFalse, leaveEvent, deleteEvent} from './../../ducks/reducer.js';
 
 import Button from 'material-ui/Button';
 import { withStyles} from 'material-ui/styles';
@@ -32,9 +31,13 @@ class ActiveEvent extends Component {
     }
 
     componentDidMount(){
+        window.scrollTo(0,0);
+
         let user = this.props.user || {};
         let newRoom  = user.active_event_id;
 
+        this.props.makeRedirFalse();
+        
         this.socket = io();
         if(newRoom){
             this.joinRoom(newRoom);
@@ -49,8 +52,9 @@ class ActiveEvent extends Component {
     }
 
     componentWillUnmount(){
+        let user = this.props.user || {};
         this.socket.emit('leave room', {
-            room: this.props.user.active_event_id
+            room: user.active_event_id
         })
     }
 
@@ -84,15 +88,16 @@ class ActiveEvent extends Component {
             room: this.props.user.active_event_id
         })
         this.setState({
-            imput: ""
+            input: ""
         })
     }
 
 
-    joinRoom(roomIn) {
+    joinRoom() {
         console.log("Inside join room, room = ", this.props.user.active_event_id);
+        
         this.socket.emit('join room', {
-            room: roomIn
+            room: this.props.user.active_event_id
         }) 
     }
     joinSuccess() {
@@ -104,16 +109,23 @@ class ActiveEvent extends Component {
 
     updateLeave(){
         const event = this.props.activeEvent||{};
+        const user = this.props.user||{};
+
+        this.props.makeRedirFalse();
         console.log("ACTIVE EVENT leave: ",event)
-            
-        if ((event.users_remaining-1)<=Math.floor(event.users_invited/2)){
+
+        console.log("users remaining: ", (event.users_remaining-1), ", EUA: ", event.end_user_amount)
+        console.log("event host: ", event.host, ", current_user: ", user.user_id)
+        if ((event.users_remaining-1)===event.end_user_amount || event.host===user.user_id.toString()){
+            console.log("Inside %END% case!");
             this.socket.emit('message sent', {
                 message: "%END%",
                 room: this.props.user.active_event_id
             })  
             this.props.deleteEvent(event.event_id);
-            this.props.setActiveEvent(null);
+            this.props.resetActiveEvent();
         }else{
+            console.log("Inside %REFRESH% case, event_id: ", event.event_id,  " , users_remaining: ", event.users_remaining)
             this.props.leaveEvent(event.event_id, event.users_remaining); 
             this.socket.emit('message sent', {
                 message: "%REFRESH%",
@@ -142,6 +154,7 @@ class ActiveEvent extends Component {
         return(
             <div className = "ActiveEvent" >
                 { this.state.over === false ? 
+                // {this.state.over ===true?
                     (
                         <div className="liveEvent">
                             <div className="eventInfoContainer" >
@@ -153,7 +166,7 @@ class ActiveEvent extends Component {
                                     <p>Event id: {event.event_id}</p>
                                     <p>People left in Room: {event.users_remaining}</p>
                                     <p>People Invited: {event.users_invited}</p>
-                                    <p>EOP limit: {Math.floor(event.users_invited/2)}</p>
+                                    <p>EOP limit: {event.end_user_amount}</p>
                                 </div>
                             </div>
                             <Button className={classes.imageButton} onClick={()=>this.updateLeave()} disabled={this.state.image===peace? false :true}><img src={this.state.image} alt="temp-log" /></Button>
@@ -167,7 +180,9 @@ class ActiveEvent extends Component {
                             <Button className={classes.button} onClick={this.sendMessage}>Message</Button><br/>
                         </div>
                     ):
-                    <span>LEAVE</span>
+                    <div className="leave">
+                        BYE
+                    </div>
                 }
                 </div>
         )
@@ -200,4 +215,4 @@ ActiveEvent.propTypes = {
 }
 
 ActiveEvent = withStyles(styles, {name: 'ActiveEvent'})(ActiveEvent);
-export default connect(mapStateToProps, {getUser, getFriends, getActiveEvent, leaveEvent, deleteEvent})(ActiveEvent);
+export default connect(mapStateToProps, {getUser, getFriends, getActiveEvent, resetActiveEvent, makeRedirFalse, leaveEvent, deleteEvent})(ActiveEvent);

@@ -29,18 +29,15 @@ module.exports = {
         const {end_user_amount, users_invited, host} = req.query;
         let {users} = req.body;
         users.push(user_id);
-        console.log("users: ", users);
 
-        console.log("Info= ",end_user_amount, users_invited, host);
+        console.log("Create Info: EUA: ",end_user_amount, " users_invited: ", users_invited," host: ", host);
         let hostInput = null;
         if(host==="true"){
-            console.log("We should be in here")
             hostInput = user_id;
-        }
-        console.log("host input= ", hostInput)
-        
+        }        
+        console.log()
         const db = req.app.get('db')
-        db.events.create_event([end_user_amount, users_invited, users_invited, hostInput]).then( (event) =>{
+        db.events.create_event([end_user_amount, users_invited, hostInput]).then( (event) =>{
             let theStack = [];
             for(var i=0; i<users.length; i++){
                 theStack.push(db.attendance.create_attendance([event[0].lastval,users[i]]))
