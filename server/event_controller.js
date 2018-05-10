@@ -35,7 +35,6 @@ module.exports = {
         if(host==="true"){
             hostInput = user_id;
         }        
-        console.log()
         const db = req.app.get('db')
         db.events.create_event([end_user_amount, users_invited, hostInput]).then( (event) =>{
             let theStack = [];

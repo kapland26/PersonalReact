@@ -46,7 +46,6 @@ function reducer(state = initialState, action){
         case GET_EVENT_INVITES+'_FULFILLED':
             return Object.assign({}, state, {invites: action.payload})
         case CREATE_EVENT+'_FULFILLED':
-            console.log("redir should be true!")
             return Object.assign({}, state, {activeEvent: action.payload, redir: true})
         case LEAVE_EVENT+'_FULFILLED':
             return Object.assign({}, state, {activeEvent: action.payload})

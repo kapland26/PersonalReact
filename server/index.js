@@ -16,6 +16,8 @@ const app = express();
 const {
     SERVER_PORT,
     SESSION_SECRET,
+    SUCCESS_REDIRECT,
+    FAILURE_REDIRECT,
     DOMAIN,
     CLIENT_ID,
     CLIENT_SECRET,
@@ -24,6 +26,8 @@ const {
 } = process.env;
 
 app.use( bodyParser.json() );
+
+app.use( express.static( `${__dirname}/../build` ) );
 
 massive(CONNECTION_STRING).then( db=> {
     app.set('db', db);
@@ -73,8 +77,8 @@ passport.deserializeUser( (id, done) => {
 
 app.get('/auth', passport.authenticate('auth0'))
 app.get('/auth/callback', passport.authenticate('auth0', {
-    successRedirect: 'http://localhost:3000/#/user-info',
-    failureRedirect: 'http://localhost:3000'
+    successRedirect: SUCCESS_REDIRECT,
+    failureRedirect: FAILURE_REDIRECT
 }))
 app.get('/auth/me', function(req, res){
     // console.log("Current user: ",req.user)
@@ -104,7 +108,7 @@ app.delete('/attendance', ac.rejectEvent);
 
 app.get('/logout', function(req, res){
     req.logOut();
-    res.redirect('http://localhost:3000')
+    res.redirect(FAILURE_REDIRECT)
 })
 
 const io = socket(app.listen(SERVER_PORT, () => console.log(`Listening on port ${SERVER_PORT}`)));
