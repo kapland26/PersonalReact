@@ -7,7 +7,7 @@ import logo from './peaceHand.jpg'
 require('dotenv').config();
 
 const {
-  LOGOUT_REDIRECT
+  REACT_APP_LOGOUT_REDIRECT
 } = process.env;
 
 class App extends Component {
@@ -22,7 +22,7 @@ class App extends Component {
               <li><Link to={'/friends'}>Friends</Link></li>
               <li><Link to={'/new-event'}>Create Event</Link></li>
               <li><Link to={'/settings'}>Settings</Link></li>
-              <li><a href={LOGOUT_REDIRECT}> Logout </a></li>
+              <li><a href={REACT_APP_LOGOUT_REDIRECT}> Logout </a></li>
             </div>
           </ul>
         </div>
