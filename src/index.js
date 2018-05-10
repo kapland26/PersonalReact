@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import { MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import store from "./ducks/store";
 import App from './App';
-import unregister from './registerServiceWorker';
+import { unregister } from './registerServiceWorker';
 
 const theme = createMuiTheme();
 
