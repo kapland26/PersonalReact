@@ -16,8 +16,8 @@ const app = express();
 const {
     SERVER_PORT,
     SESSION_SECRET,
-    SUCCESS_REDIRECT,
-    FAILURE_REDIRECT,
+    REACT_APP_SUCCESS_REDIRECT,
+    REACT_APP_FAILURE_REDIRECT,
     DOMAIN,
     CLIENT_ID,
     CLIENT_SECRET,
@@ -77,8 +77,8 @@ passport.deserializeUser( (id, done) => {
 
 app.get('/auth', passport.authenticate('auth0'))
 app.get('/auth/callback', passport.authenticate('auth0', {
-    successRedirect: SUCCESS_REDIRECT,
-    failureRedirect: FAILURE_REDIRECT
+    successRedirect: REACT_APP_SUCCESS_REDIRECT,
+    failureRedirect: REACT_APP_FAILURE_REDIRECT
 }))
 app.get('/auth/me', function(req, res){
     // console.log("Current user: ",req.user)
@@ -108,7 +108,7 @@ app.delete('/attendance', ac.rejectEvent);
 
 app.get('/logout', function(req, res){
     req.logOut();
-    res.redirect(FAILURE_REDIRECT)
+    res.redirect(REACT_APP_FAILURE_REDIRECT)
 })
 
 const io = socket(app.listen(SERVER_PORT, () => console.log(`Listening on port ${SERVER_PORT}`)));
