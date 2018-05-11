@@ -36,7 +36,8 @@ function reducer(state = initialState, action){
         case GET_ACTIVE_EVENT+'_FULFILLED':
             return Object.assign({}, state, {activeEvent: action.payload})
         case SET_ACTIVE_EVENT+'_FULFILLED':
-            return Object.assign({}, state, {activeEvent: action.payload, redir: true})
+            return Object.assign({}, state, {activeEvent: action.payload, 
+                                            redir: true})
         case RESET_ACTIVE_EVENT:
             return Object.assign({}, state, {activeEvent: action.payload})
         case MAKE_REDIR_FALSE:
@@ -46,7 +47,8 @@ function reducer(state = initialState, action){
         case GET_EVENT_INVITES+'_FULFILLED':
             return Object.assign({}, state, {invites: action.payload})
         case CREATE_EVENT+'_FULFILLED':
-            return Object.assign({}, state, {activeEvent: action.payload, redir: true})
+            return Object.assign({}, state, {activeEvent: action.payload,
+                                             redir: true})
         case LEAVE_EVENT+'_FULFILLED':
             return Object.assign({}, state, {activeEvent: action.payload})
         case DELETE_EVENT+'_FULFILLED':
@@ -91,8 +93,7 @@ export function getActiveEvent(eventId){
 }
 export function setActiveEvent(eventId, hist){
     let eventData = axios.put(`/user/updateEvent?event_id=${eventId}`).then(res => {
-        hist.push('/active-event');
-        console.log("data", res.data)
+        console.log("inside set active event axios call, data: ", res.data)
         return res.data[0];
     })
     return {

@@ -1,18 +1,18 @@
 To Do Eventually:
+    - Fix css on find friends page
     - settings page with user info
-    - Some kind of alert when event is left
     - Restrict access to pages when not logged in
     - Make sure socket issue is resolved
-
-To do UI: 
     - integrate user info and pictures into code
     - Update info displayed on event list
-    - Nice login page with title in middle and no nav bar
+    - Nice login page with title in middle and no nav bar, particle js
 
 MAYBE do:
     - Prevent reading same friend
     - Refresh home/ list disappearance problem (putting redux calls in app.js)
     - Timer on event leave
+    - Sound alert when event is left
+    - parallax on every page
 
 Unrealistic goals:
     - check unique usernames, do not allow log-in click unless both boxes filled

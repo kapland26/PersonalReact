@@ -79,12 +79,13 @@ module.exports = {
     },
     delete: (req, res) => {
         const {event_id} = req.query;
+        const {user_id} = req.user;
         console.log("Inside delete event, event_id = ", event_id);
 
         const db = req.app.get('db')
         db.events.delete_event([event_id]).then( () =>{
             db.attendance.delete_attendance([event_id]).then( () =>{
-                res.status(200).send();
+                    res.status(200).send();
             })
         })
         .catch( (err) => {

@@ -34,12 +34,6 @@ class Home extends Component {
         this.props.getFriends(user.user_id);
     }
 
-    // componentDidUpdate(oldProps, newProps){
-    //     if(oldProps !== newProps){
-    //     // console.log("Inside component did update")
-    //     }
-    // }
-
     deleteEventInvite(event, usersInvited){
         console.log("Inside deleteEventInvite, event= ", event, " users_invited = ", usersInvited)
         axios.delete(`/attendance?event_id=${event}`).then((response) => {
@@ -49,8 +43,7 @@ class Home extends Component {
     }
 
     updateActiveEvent(event){
-        this.props.setActiveEvent(event, this.props.history);     
-        // this.toggleRedirect(true);
+        this.props.setActiveEvent(event, this.props.history);
     }
     render(){
         const {classes} = this.props;
