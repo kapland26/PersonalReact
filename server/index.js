@@ -90,6 +90,7 @@ app.get('/auth/me', function(req, res){
 })
 
 app.put('/user/updateInfo',uc.updateInfo);
+app.put('/user/updateAllInfo', uc.updateAllInfo);
 app.get('/users', uc.searchUsers);
 app.get('/user', uc.getUser); 
 app.put('/user/updateEvent', uc.updateEvent);

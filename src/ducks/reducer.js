@@ -11,6 +11,7 @@ const initialState = {
 
 const GET_USER_INFO = 'GET_USER_INFO';
 const SET_USER_INFO = 'SET_USER_INFO';
+const SET_ALL_USER_INFO = 'SET_ALL_USER_INFO';
 const CHANGE_INFO_STATUS = 'CHANGE_INFO_STATUS';
 const GET_ACTIVE_EVENT = 'GET_ACTIVE_EVENT';
 const SET_ACTIVE_EVENT = 'SET_ACTIVE_EVENT';
@@ -30,8 +31,9 @@ function reducer(state = initialState, action){
             return Object.assign({}, state, {user: action.payload})  
         case SET_USER_INFO+'_FULFILLED':
             return Object.assign({}, state, {user: action.payload})
+        case SET_ALL_USER_INFO+'_FULFILLED':
+            return Object.assign({}, state, {user: action.payload}) 
         case CHANGE_INFO_STATUS:
-            console.log("In change info status, ", action.payload)
             return Object.assign({}, state, {infoChanged: action.payload})
         case GET_ACTIVE_EVENT+'_FULFILLED':
             return Object.assign({}, state, {activeEvent: action.payload})
@@ -69,10 +71,26 @@ export function getUser(){
 }
 export function setUser(username, name){
     let userData = axios.put(`/user/updateInfo/?username=${username}&name=${name}`).then( res =>{
-            return res.data;
+        return res.data;
     })
     return {
         type: GET_USER_INFO,
+        payload: userData
+    }
+}
+export function updateUserSettings(usernameIn, nameIn, emailIn, imgIn){
+    console.log("in reducer, image in=", imgIn)
+    let body = {
+        username: usernameIn,
+        name: nameIn,
+        email: emailIn,
+        img: imgIn
+    }
+    let userData = axios.put(`/user/updateAllInfo`, body).then( res =>{
+        return res.data[0];
+    })
+    return {
+        type: SET_ALL_USER_INFO,
         payload: userData
     }
 }

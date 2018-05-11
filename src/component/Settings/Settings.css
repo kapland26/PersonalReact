@@ -1,0 +1,68 @@
+.Settings{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    background: #EEEEEE;
+}
+
+.Settings .settingsContainer{
+    width: 50vw;
+    min-width: 400px;
+    min-height: 200px;
+    margin: auto;
+    background: white;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding-top: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.userInputContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: 15px;
+}
+
+.Settings .imgContainer{
+    height: 150px;
+    width: 150px;
+}
+
+.Settings .imgContainer img{
+    height: 100%;
+    width: 100%;
+    border-radius: 25px;
+}
+
+.Settings .infoContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    list-style-type: none;
+}
+
+.buttonContainer{
+    width: 100px;
+    height: 50px;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.Settings h1{
+    font-size: 15px;
+}
+.Settings h2{
+    display: inline;
+    font-style: italic;
+    font-weight: lighter;
+    margin-right: 7px;
+}

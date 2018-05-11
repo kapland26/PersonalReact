@@ -27,10 +27,6 @@ class NewEvent extends Component {
         }
     }
 
-    componentDidMount(){
-
-    }
-
     handleAdd(idIn, nameIn){
         console.log(this.state.invitedId.filter((val, i)=> {
             return(val === idIn)

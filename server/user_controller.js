@@ -15,6 +15,19 @@ module.exports = {
             });  
         })
     },
+    updateAllInfo: ( req, res ) => {
+        let { username, name, email, img} = req.body;
+        let {user_id} = req.user;
+
+        const db = req.app.get('db')
+        db.users.update_all_user_info([username, name, email, img, user_id]).then( (user) => {
+                res.status(200).send(user);
+            })
+            .catch( (err) => {
+                console.log(err)
+                res.status(500).send(err) 
+            });  
+    },
     searchUsers: (req, res) => {
         let { username, name, email} = req.query;
         let metric = username ||name ||email;
