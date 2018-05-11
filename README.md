@@ -1,8 +1,7 @@
 To Do Eventually:
     JS: 
-        - settings page with user info
+        - Stress test on events
         - Add event name
-        - Restrict access to pages when not logged in
         - Update info displayed on event list
 
     HTML: 
@@ -26,10 +25,6 @@ Unrealistic goals:
     - Make attend buttons inaccessable when active event
 
 Colors: black
-    pink: #EC576B
-    aqua: #4EC5C1
-    lime: #ESE338
-
     red400: #EF5350
     teal300: #4DB6AC
     limeA200: #EEFF41

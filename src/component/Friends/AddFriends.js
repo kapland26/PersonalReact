@@ -17,6 +17,12 @@ class AddFriends extends Component {
         this.handleAddFriend = this.handleAddFriend.bind(this);
     }
 
+    componentDidMount(){
+        if(!this.props.user){
+            this.props.history.push('/');
+        }
+    }
+
     handleSelect(e){
         this.setState({
             select: e

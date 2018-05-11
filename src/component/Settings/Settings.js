@@ -22,6 +22,12 @@ class Settings extends Component {
     }
   }
 
+  componentDidMount(){
+    if(!this.props.user){
+      this.props.history.push('/');
+    } 
+  }
+
   handleChange = name => event => {
     console.log("name = ", name, " , event= ", event)
     this.setState({

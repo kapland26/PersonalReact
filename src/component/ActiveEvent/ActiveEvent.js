@@ -32,9 +32,13 @@ class ActiveEvent extends Component {
     }
 
     componentDidMount(){
+        if(!this.props.user){
+            this.props.history.push('/');
+        }
         window.scrollTo(0,0);
 
         let user = this.props.user || {};
+
         let newRoom  = user.active_event_id;
 
         this.props.makeRedirFalse();

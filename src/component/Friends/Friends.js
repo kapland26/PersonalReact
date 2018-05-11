@@ -18,6 +18,12 @@ class Friends extends Component{
         this.handleDelete = this.handleDelete.bind(this)
     }
 
+    componentDidMount(){
+        if(!this.props.user){
+            this.props.history.push('/');
+        }
+    }
+
     handleDelete(id){
         axios.delete(`/friend?user2_id=${id}`).then((response) => {
             console.log(response);

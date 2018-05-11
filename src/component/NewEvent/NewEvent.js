@@ -27,6 +27,12 @@ class NewEvent extends Component {
         }
     }
 
+    componentDidMount(){
+        if(!this.props.user){
+            this.props.history.push('/');
+        }
+    }
+
     handleAdd(idIn, nameIn){
         console.log(this.state.invitedId.filter((val, i)=> {
             return(val === idIn)

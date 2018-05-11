@@ -25,11 +25,15 @@ class Home extends Component {
     }
 
     componentDidMount(){
+        if(!this.props.user){
+            this.props.history.push('/');
+        }
+
         if(this.props.infoChanged===true){
             this.props.getUser();
             this.props.changeInfoStatus(false);
         }
-        const user = this.props.user || {}
+        const user = this.props.user || {};
         this.props.getEventInvites(user.user_id);
         this.props.getFriends(user.user_id);
     }
