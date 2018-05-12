@@ -9,7 +9,6 @@
     align-items: center;
     flex-wrap: wrap;
 }
-
 .FriendContainer .UserInfoContainer{
     margin-left: 20px;
     display: flex;
@@ -17,12 +16,42 @@
     justify-content: space-around;
     align-items: center;
 }
-
 .FriendContainer p{
     margin-right: 10px;
 }
 
 .FriendContainer h2{
+    font-weight: 100;
+    font-style: italic;
+}
+
+.AddFriendContainer{
+    font-family: 'Montserrat', sans-serif;
+    width:60vw;
+    height: 50px;
+    font-size: 12px;
+    margin: auto;
+    overflow:hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.AddFriendContainer .UserInfoContainer{
+    margin-left: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+.AddFriendContainer p{
+    margin-right: 10px;
+}
+.AddFriendContainer h1{
+    font-weight: bold;
+}
+.AddFriendContainer h2{
     font-weight: 100;
     font-style: italic;
 }

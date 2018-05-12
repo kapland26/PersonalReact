@@ -1,3 +1,9 @@
+Today:
+2. Add emails to all users
+3. Add event names
+4. Stress test events
+5. Fix info displayed on home page
+
 To Do Eventually:
     JS: 
         - Stress test on events

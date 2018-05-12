@@ -5,7 +5,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 
 export default function FriendContainer( props ) {
-
     return(
         <div className="FriendContainer">
             <div className="UserInfoContainer">
@@ -16,8 +15,6 @@ export default function FriendContainer( props ) {
             <IconButton aria-label="Delete">
             <DeleteIcon onClick={()=> props.handleDelete(props.user_id)}/>
             </IconButton>
-            {/* <button onClick={()=>props.handleAddFriend(props.user_id)}>Add</button><br/><br/><br/> */}
         </div>
     )
-
 }

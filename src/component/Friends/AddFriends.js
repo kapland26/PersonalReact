@@ -3,7 +3,15 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import {connect} from 'react-redux';
 
+import TextField from 'material-ui/TextField';
 import AddFriendsContainer from './AddFriendsContainer.js'
+import Button from 'material-ui/Button';
+import SearchIcon from '@material-ui/icons/Search';
+import IconButton from 'material-ui/IconButton';
+import { withStyles} from 'material-ui/styles';
+import PropTypes from "prop-types"
+import Select from 'material-ui/Select';
+import { MenuItem } from 'material-ui/Menu';
 
 class AddFriends extends Component {
 
@@ -19,7 +27,7 @@ class AddFriends extends Component {
 
     componentDidMount(){
         if(!this.props.user){
-            this.props.history.push('/');
+            // this.props.history.push('/');
         }
     }
 
@@ -28,11 +36,12 @@ class AddFriends extends Component {
             select: e
         })
     }
-    handleInput(e){
+    handleChange = name => event => {
+        console.log("name = ", name, " , event= ", event)
         this.setState({
-            input: e
-        })
-    }
+          [name]: event.target.value,
+        });
+    };
 
     handleSearch(){
         console.log("Inside handle search!")
@@ -70,26 +79,45 @@ class AddFriends extends Component {
     }
 
     render(){
+        const {classes} = this.props;
+        // let testList = [1,2,3,4];
+        // let resultList = testList.map((val, i)=>{
         var resultList = this.state.searchResults.map((val, i)=>{
             return (
                 <div className="friendOptionContainer" key={i}>
                     <AddFriendsContainer handleAddFriend={this.handleAddFriend} user_id={val.user_id} name={val.name} img={val.img} username={val.username} email={val.email} />
+                    {/* <AddFriendsContainer handleAddFriend={this.handleAddFriend} user_id="1" name="Deniz Kaplan" img="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" username="kapland26" email= "kapland26@gmail.com" /> */}
                 </div>
             )
         })
         return(
             <div className = "AddFriends">
-                <input onChange={(e)=>this.handleInput(e.target.value)} type="text"/> 
-                <select onClick={(e)=>this.handleSelect(e.target.value)}>
-                    <option value="name">Name</option>
-                    <option value="username">Username</option>
-                    <option value="email">Email</option> 
-                </select>
-                <button onClick={()=>this.handleSearch()}>Search</button>
+                <TextField  
+                    id="input"
+                    label="Search"
+                    className={classes.textField}
+                    onChange={this.handleChange('input')}
+                    value={this.state.input} 
+                    margin= "dense" 
+                />
+                <Select 
+                    className={classes.select}
+                    value={this.state.select}
+                    onChange={(e)=>this.handleSelect(e.target.value)}>
+                    <MenuItem value="name">
+                    <em>Name</em>
+                    </MenuItem>
+                    <MenuItem value="username">Username</MenuItem>
+                    <MenuItem value="email">Email</MenuItem>
+                </Select>
+
+                <IconButton aria-label="Search">
+                <SearchIcon onClick={()=> this.handleSearch()}/>
+                </IconButton>
                 <br/><br/>
                 {resultList}
                 <br/><br/>
-                <Link to={'/friends'}><button>Back</button></Link>    
+                <Link to={'/friends'}> <Button className={classes.button}>Back</Button><br/></Link>    
             </div>
         )
     }
@@ -99,5 +127,30 @@ function mapStateToProps(state){
         user: state.user
     }
 }
+const styles = {
+    button: {
+        color: "white",
+        backgroundColor: "#EF5350",
+        fontFamily: 'Montserrat',
+        margin: "10px"
+    },
+    imageButton: {
+        width: "30px",
+        backgroundColor: "#BDBDBD",
+        marginBottom: "10px"
+    },
+    select: {
+        margin: "10px",
+        fontFamily: 'Montserrat',
+        color: "#4DB6AC"
+    },
+    textField: {
+        color: "#EF5350",
+    },
+}
+AddFriends.propTypes = {
+    classes: PropTypes.object.isRequired
+}
 
+AddFriends = withStyles(styles, {name: 'AddFriends'})(AddFriends);
 export default connect(mapStateToProps, {})(AddFriends);

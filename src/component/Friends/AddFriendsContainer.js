@@ -1,16 +1,24 @@
 import './FriendContainer.css';
 import React from 'react';
+import IconButton from 'material-ui/IconButton';
+import AddIcon from '@material-ui/icons/Add';
 
 export default function AddFriendsContainer( props ) {
 
     return(
-        <div className="FriendContainer">
-            Name: {props.name}<br/>
-            Email: {props.email}<br/>
-            Username: {props.username}<br/>
-            Image: <img src={props.image} alt="profile"/><br/>
-            <button onClick={()=>props.handleAddFriend(props.user_id)}>Add</button><br/><br/><br/>
+        <div className="AddFriendContainer">
+            <div className="UserInfoContainer">
+                <p><img src={props.img} alt="profile"/></p>
+                {/* <div className="stackedInfoContainer">  */}
+                    <h1><p>{props.name}</p></h1>
+                    <h2><p>({props.username})</p></h2>
+                    <h1><p>{props.email}</p></h1>
+                {/* </div> */}
+                
+            </div>
+            <IconButton aria-label="Add">
+            <AddIcon onClick={()=> props.handleAddFriend(props.user_id)}/>
+            </IconButton>
         </div>
     )
-
 }
