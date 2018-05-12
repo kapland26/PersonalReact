@@ -44,21 +44,23 @@ class UserInfo extends Component {
         })
     }
 
+    handleEmailIn(e){
+        console.log("In 2 in")
+        this.setState({
+            emailIn: e
+        })
+    }
+
     handleSave(){
         this.props.setUser(this.state.usernameIn, this.state.nameIn);
         this.props.changeInfoStatus(true);
         this.setState({
             usernameIn: "",
             nameIn:"",
-            emailIn:""
+            emailIn:"",
+            imageIn: ""
         })
     }
-
-    handleChange = name => event => {
-        this.setState({
-          [name]: event.target.value,
-        });
-      };
 
     render(){
         const {classes} = this.props;
@@ -94,7 +96,7 @@ class UserInfo extends Component {
                     id="emailIn"
                     label="Email "
                     className={classes.textField}
-                    onChange={(e)=>this.handleNameIn(e.target.value)}
+                    onChange={(e)=>this.handleEmailIn(e.target.value)}
                     value={this.state.emailIn} 
                     margin= "dense" 
                 />

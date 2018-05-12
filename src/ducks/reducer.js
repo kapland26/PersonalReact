@@ -71,7 +71,7 @@ export function getUser(){
 }
 export function setUser(username, name){
     let userData = axios.put(`/user/updateInfo/?username=${username}&name=${name}`).then( res =>{
-        return res.data;
+        return res.data[0];
     })
     return {
         type: GET_USER_INFO,

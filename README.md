@@ -1,5 +1,4 @@
 Today:
-2. Add emails to all users
 3. Add event names
 4. Stress test events
 5. Fix info displayed on home page
@@ -16,6 +15,7 @@ To Do Eventually:
         - integrate user info and pictures into Home page
 
 MAYBE do:
+    - Make email on first user-info page work
     - Add voting feature
     - Prevent reading same friend
     - Refresh home/ list disappearance problem (putting redux calls in app.js)

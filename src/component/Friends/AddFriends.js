@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import {connect} from 'react-redux';
+import {getFriends} from './../../ducks/reducer.js';
 
 import TextField from 'material-ui/TextField';
 import AddFriendsContainer from './AddFriendsContainer.js'
@@ -70,12 +71,13 @@ class AddFriends extends Component {
             user2_id= user_id;
         }
         axios.post(`/friend/?user1_id=${user1_id}&user2_id=${user2_id}`).then(function () {
-            console.log("Friend added");
+            console.log("Friend added");  
             //disallow add feature on list (delete list?)
         })
         .catch(function (error) {
             alert("Error adding friend!");
         });
+        this.props.getFriends(user.user_id);
     }
 
     render(){
@@ -153,4 +155,4 @@ AddFriends.propTypes = {
 }
 
 AddFriends = withStyles(styles, {name: 'AddFriends'})(AddFriends);
-export default connect(mapStateToProps, {})(AddFriends);
+export default connect(mapStateToProps, {getFriends})(AddFriends);
