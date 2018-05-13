@@ -1,7 +1,8 @@
 Today:
-3. Add event names
-4. Stress test events
-5. Fix info displayed on home page
+1. Add event names
+2. Stress test events
+3. Fix info displayed on home page and event list
+4. Add particles to leave page
 
 To Do Eventually:
     JS: 
@@ -10,19 +11,13 @@ To Do Eventually:
         - Update info displayed on event list
 
     HTML: 
-        - Login page with title in middle and no nav bar, particle js
-        - Fix css on find friends page
         - integrate user info and pictures into Home page
 
 MAYBE do:
     - Make email on first user-info page work
-    - Add voting feature
     - Prevent reading same friend
-    - Refresh home/ list disappearance problem (putting redux calls in app.js)
-    - Timer on event leave
     - Sound alert when event is left
     - parallax on every page
-    - unique username
 
 Unrealistic goals:
     - check unique usernames, do not allow log-in click unless both boxes filled

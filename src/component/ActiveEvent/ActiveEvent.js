@@ -9,6 +9,9 @@ import {getUser, getFriends, getActiveEvent, resetActiveEvent, makeRedirFalse, l
 import Button from 'material-ui/Button';
 import { withStyles} from 'material-ui/styles';
 import PropTypes from "prop-types"
+import Select from 'material-ui/Select';
+import { MenuItem } from 'material-ui/Menu';
+import { FormControl } from 'material-ui/Form';
 
 class ActiveEvent extends Component {
 
@@ -18,6 +21,7 @@ class ActiveEvent extends Component {
         this.state= {
             image : peace,
             over: false,
+            timer: 0,
             /*** Socket State Variables ***/
             input: '',
             messages: [],
@@ -33,7 +37,7 @@ class ActiveEvent extends Component {
 
     componentDidMount(){
         if(!this.props.user){
-            this.props.history.push('/');
+            // this.props.history.push('/');
         }
         window.scrollTo(0,0);
 
@@ -116,7 +120,12 @@ class ActiveEvent extends Component {
             joined: true
         })
     }
-
+    handleSetTimer(e){
+        console.log("Inside handle timer!: ", e)
+        this.setState({
+            timer: e
+        })
+    }
     updateLeave(){
         const event = this.props.activeEvent||{};
         const user = this.props.user||{};
@@ -127,17 +136,19 @@ class ActiveEvent extends Component {
         console.log("users remaining: ", (event.users_remaining-1), ", EUA: ", event.end_user_amount)
         console.log("event host: ", event.host, ", current_user: ", user.user_id)
         if ((event.users_remaining-1)===event.end_user_amount || event.host===user.user_id.toString()){
-            console.log("Inside %END% case!");
-            this.setState({
-                leaver:true,
-                over: true
-            })
-            this.socket.emit('message sent', {
-                message: "%END%",
-                room: this.props.activeEvent.event_id
-            })                  
-            this.props.deleteEvent(event.event_id);
-            this.props.resetActiveEvent();
+            setTimeout(function(){
+                console.log("Inside %END% case!");
+                this.setState({
+                    leaver:true,
+                    over: true
+                })
+                this.socket.emit('message sent', {
+                    message: "%END%",
+                    room: this.props.activeEvent.event_id
+                })                  
+                this.props.deleteEvent(event.event_id);
+                this.props.resetActiveEvent();
+            }, this.state.timer*1000)
         }else{
             console.log("Inside %REFRESH% case, event_id: ", event.event_id,  " , users_remaining: ", event.users_remaining)
             this.props.leaveEvent(event.event_id, event.users_remaining); 
@@ -168,7 +179,7 @@ class ActiveEvent extends Component {
         return(
             <div className = "ActiveEvent" >
                 { this.state.over === false ? 
-                // {this.state.over ===true?
+                 /* {this.state.over ===true? */
                     (
                         <div className="liveEvent">
                             <div className="eventInfoContainer" >
@@ -181,6 +192,23 @@ class ActiveEvent extends Component {
                                     <p>People left in Room: {event.users_remaining}</p>
                                     <p>People Invited: {event.users_invited}</p>
                                     <p>EOP limit: {event.end_user_amount}</p>
+                                    <div classnmae="timerContainer">
+                                        Timer to Leave: 
+                                        <FormControl className={classes.formControl}>
+                                        <Select
+                                            value={this.state.timer}
+                                            onChange={(e)=>this.handleSetTimer(e.target.value)}
+                                            className={classes.select}>
+                                            <MenuItem value={0}>
+                                            <em>No Delay</em>
+                                            </MenuItem>
+                                            <MenuItem value={10}>10 seconds</MenuItem>
+                                            <MenuItem value={30}>30 seconds</MenuItem>
+                                            <MenuItem value={60}>1 minute</MenuItem>
+                                            <MenuItem value={300}>5 minutes</MenuItem>
+                                        </Select>
+                                        </FormControl>
+                                    </div>
                                 </div>
                             </div>
                             <Button className={classes.imageButton} onClick={()=>this.updateLeave()} disabled={this.state.image===peace? false :true}><img src={this.state.image} alt="temp-log" /></Button>
@@ -195,7 +223,7 @@ class ActiveEvent extends Component {
                         </div>
                     ):
                     <div className="leave">
-                        BYE
+                            BYE
                     </div>
                 }
                 </div>
@@ -222,6 +250,10 @@ const styles = {
         width: "30px",
         backgroundColor: "#BDBDBD",
         marginBottom: "10px"
+    },
+    select: {
+        margin: "0px",
+        color: "#4DB6AC"
     }
 }
 ActiveEvent.propTypes = {
