@@ -28,6 +28,7 @@ class ActiveEvent extends Component {
             leaver:false
         }
 
+        this.handleEndParty = this.handleEndParty.bind(this);
         this.updateMessage = this.updateMessage.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
         // EVERYONE IN ROOM
@@ -37,7 +38,7 @@ class ActiveEvent extends Component {
 
     componentDidMount(){
         if(!this.props.user){
-            // this.props.history.push('/');
+            this.props.history.push('/');
         }
         window.scrollTo(0,0);
 
@@ -61,9 +62,9 @@ class ActiveEvent extends Component {
     }
 
     componentWillUnmount(){
-        let user = this.props.user || {};
+        const event = this.props.activeEvent||{};
         this.socket.emit('leave room', {
-            room: user.active_event_id
+            room: event.event_id
         })
     }
 
@@ -80,6 +81,7 @@ class ActiveEvent extends Component {
             }else if(message ==="%REFRESH%"){
                 console.log("Someone left!");
                 this.props.getActiveEvent(this.props.activeEvent.event_id);
+                console.log("people now left: ", this.props.activeEvent.users_left);
             }
             else{
                 console.log("Legit message: ", message)
@@ -126,6 +128,24 @@ class ActiveEvent extends Component {
             timer: e
         })
     }
+    handleEndParty(){
+        const event = this.props.activeEvent||{};
+        console.log("Inside %END% case!");
+        this.setState({
+            leaver:true,
+            over: true
+        })
+        this.socket.emit('message sent', {
+            message: "%END%",
+            room: this.props.activeEvent.event_id
+        })
+        this.socket.emit('leave room', {
+            room: this.props.activeEvent.event_id
+        })                  
+        this.props.deleteEvent(event.event_id);
+        this.props.resetActiveEvent();
+    }
+
     updateLeave(){
         const event = this.props.activeEvent||{};
         const user = this.props.user||{};
@@ -136,19 +156,8 @@ class ActiveEvent extends Component {
         console.log("users remaining: ", (event.users_remaining-1), ", EUA: ", event.end_user_amount)
         console.log("event host: ", event.host, ", current_user: ", user.user_id)
         if ((event.users_remaining-1)===event.end_user_amount || event.host===user.user_id.toString()){
-            setTimeout(function(){
-                console.log("Inside %END% case!");
-                this.setState({
-                    leaver:true,
-                    over: true
-                })
-                this.socket.emit('message sent', {
-                    message: "%END%",
-                    room: this.props.activeEvent.event_id
-                })                  
-                this.props.deleteEvent(event.event_id);
-                this.props.resetActiveEvent();
-            }, this.state.timer*1000)
+            console.log('About to leave, pre timeout')
+            setTimeout(this.handleEndParty , this.state.timer*1000)
         }else{
             console.log("Inside %REFRESH% case, event_id: ", event.event_id,  " , users_remaining: ", event.users_remaining)
             this.props.leaveEvent(event.event_id, event.users_remaining); 

@@ -124,7 +124,7 @@ io.on('connection', socket => {
   socket.on('message sent', data => {
       console.log("Inside message sent, ", data.message)
       if(data.message==="%END%"){
-          console.log("Inside if statement!")
+          console.log("Server recieved %END%")
       }
     io.to(data.room).emit('message dispatched', data.message);
   })
@@ -134,7 +134,7 @@ io.on('connection', socket => {
   })
 
   socket.on('leave room', data => {
-    console.log('User Left Room');
+    console.log('User Left Room ',data.room);
     socket.leave(data.room);
   })
 });

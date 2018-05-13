@@ -30,6 +30,7 @@ module.exports = {
         users.push(user_id);
 
         console.log("Create Info: EUA: ",end_user_amount, " users_invited: ", users_invited," host: ", host, ", name: ", name);
+        console.log("users: ", users)
         let hostInput = null;
         if(host==="true"){
             hostInput = user_id;

@@ -1,17 +1,7 @@
 Today:
-1. Add event names
 2. Stress test events
-3. Fix info displayed on home page and event list
+3. Fix info displayed on event list
 4. Add particles to leave page
-
-To Do Eventually:
-    JS: 
-        - Stress test on events
-        - Add event name
-        - Update info displayed on event list
-
-    HTML: 
-        - integrate user info and pictures into Home page
 
 MAYBE do:
     - Make email on first user-info page work
