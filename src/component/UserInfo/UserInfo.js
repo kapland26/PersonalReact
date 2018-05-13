@@ -31,21 +31,18 @@ class UserInfo extends Component {
     }
 
     handleUsernameIn(e){
-        console.log("In 1 in")
         this.setState({
             usernameIn: e
         })
     }
 
     handleNameIn(e){
-        console.log("In 2 in")
         this.setState({
             nameIn: e
         })
     }
 
     handleEmailIn(e){
-        console.log("In 2 in")
         this.setState({
             emailIn: e
         })

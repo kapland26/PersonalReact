@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {createEvent} from './../../ducks/reducer.js';
 
 import './NewEvent.css';
 
+import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Select from 'material-ui/Select';
@@ -22,6 +24,7 @@ class NewEvent extends Component {
         this.state = {
             invitedId: [],
             invitedName: [],
+            eventName: '',
             hostEvent: false,
             endPercent: 50
         }
@@ -60,8 +63,9 @@ class NewEvent extends Component {
         let invitees = this.state.invitedId.length+1
         let endUserAmount= invitees - Math.floor(invitees*.01*this.state.endPercent);
         let host= this.state.hostEvent;
+        let name= this.state.eventName;
         console.log("EUA: ", endUserAmount, " , invitees: ", invitees, ", host: ", host," , usersIn: ", usersIn)
-        this.props.createEvent(endUserAmount, invitees, host, usersIn);
+        this.props.createEvent(endUserAmount, invitees, host, usersIn, name);
     }
 
     handleHost(val) {
@@ -76,11 +80,14 @@ class NewEvent extends Component {
             endPercent: val
         })
     }
+    handleNameIn(e){
+        this.setState({
+            eventName: e
+        })
+    }
 
     render(){
         const {classes} = this.props;
-
-        console.log(this.props.redir)
         if(this.props.redir===true){
             return <Redirect to='/active-event'/>
         }
@@ -98,7 +105,7 @@ class NewEvent extends Component {
                 <p>Deniz Kaplan</p>
                 <h3>`<p>( Heres a Username ) </p></h3> */}
                 </div>
-                <Button onClick={()=> this.handleAdd(val.user_id, val.name)} variant="fab" mini color="primary" aria-label="add" className={classes.button}>
+                <Button onClick={()=> this.handleAdd(val.user_id, val.name)} variant="fab" mini color="primary" aria-label="add" className={classes.fabButton}>
                     <AddIcon />
                </Button>    
             </div>
@@ -115,44 +122,55 @@ class NewEvent extends Component {
 
         return(
             <div className = "NewEvent">
-            <h1>New Event</h1><br/>
-            Will you be hosting this event?   
-            <Select 
-                className={classes.select}
-                value={this.state.hostEvent}
-                onChange={(e)=>this.handleHost(e.target.value)}>
-                <MenuItem value={false}>
-                <em>No</em>
-                </MenuItem>
-                <MenuItem value={true}>Yes</MenuItem>
-            </Select>
-            <br/>
-            What percent of users should vote to leave before the party ends?   
-                <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="age-simple">Percent</InputLabel>
-                <Select
-                    value={this.state.endPercent}
-                    onChange={(e)=>this.handleEndPercent(e.target.value)}
-                    className={classes.select}>
-                    <MenuItem value={25}>
-                    <em>25%</em>
+                <h1>New Event</h1><br/>
+                Event name: 
+                <TextField
+                        id="eventName"
+                        label="*"
+                        className={classes.textField}
+                        onChange={(e)=>this.handleNameIn(e.target.value)}
+                        value={this.state.eventName} 
+                        // margin= "dense" 
+                    />
+                    <br/>
+                Will you be hosting this event?   
+                <Select 
+                    className={classes.select}
+                    value={this.state.hostEvent}
+                    onChange={(e)=>this.handleHost(e.target.value)}>
+                    <MenuItem value={false}>
+                    <em>No</em>
                     </MenuItem>
-                    <MenuItem value={50}>50%</MenuItem>
-                    <MenuItem value={75}>75%</MenuItem>
-                    <MenuItem value={100}>100%</MenuItem>
+                    <MenuItem value={true}>Yes</MenuItem>
                 </Select>
-                </FormControl>
+                <br/>
+                What percent of users should vote to leave before the party ends?   
+                    <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="age-simple">Percent</InputLabel>
+                    <Select
+                        value={this.state.endPercent}
+                        onChange={(e)=>this.handleEndPercent(e.target.value)}
+                        className={classes.select}>
+                        <MenuItem value={25}>
+                        <em>25%</em>
+                        </MenuItem>
+                        <MenuItem value={50}>50%</MenuItem>
+                        <MenuItem value={75}>75%</MenuItem>
+                        <MenuItem value={100}>100%</MenuItem>
+                    </Select>
+                    </FormControl>
 
 
-            <br/>
-            <br/>
-            <h2>Guest List:</h2>
-                {inviteList}
-            <br/><br/>    
-            <div className="list-container">
-                {friendList}
-            </div>
-            <Button onClick={()=>this.handleInvite()} className={classes.button} variant="raised">START</Button>
+                <br/>
+                <br/>
+                <h2>Guest List:</h2>
+                <h4><Link to={'/add-friends'}>Add new friends for more options</Link></h4>
+                    {inviteList}
+                <br/><br/>    
+                <div className="list-container">
+                    {friendList}
+                </div>
+                <Button onClick={()=>this.handleInvite()} className={classes.button} variant="raised">START</Button>
             </div>
         )
     }
@@ -171,6 +189,19 @@ const styles = {
         backgroundColor: "#EF5350",
         fontFamily: 'Montserrat',
         marginBottom: '10px'
+    },
+    fabButton: {
+        color: "white",
+        backgroundColor: "#4DB6AC",
+        fontFamily: 'Montserrat',
+        marginBottom: '10px',
+        "&:hover": {
+            backgroundColor: "#EF5350"
+        }
+    },
+    textField: {
+        color: "#EF5350",
+        marginLeft: "10px",
     },
     select: {
         margin: "10px",

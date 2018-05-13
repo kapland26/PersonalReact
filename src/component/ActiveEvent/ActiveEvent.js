@@ -187,6 +187,7 @@ class ActiveEvent extends Component {
                                     Active Event
                                 </div>
                                 <div className= "guest-list" >
+                                    <p>Event: {event.name} </p>
                                     <p>User: {user.name} </p>
                                     <p>Event id: {event.event_id}</p>
                                     <p>People left in Room: {event.users_remaining}</p>

@@ -142,6 +142,7 @@ export function getFriends(userId){
 }
 export function getEventInvites(userId){
     let inviteData = axios.get(`/events?user_id=${userId}`).then( res => {
+        console.log("inside reducer:", res.data)
         return res.data;
     })
     return {
@@ -149,12 +150,16 @@ export function getEventInvites(userId){
         payload: inviteData
     }
 }
-export function createEvent(end_user_amount, users_invited, host, usersIn){
+export function createEvent(end_user_amountIn, users_invitedIn, hostIn, usersIn, nameIn){
     let body = {
-        users: usersIn
+        users: usersIn,
+        end_user_amount: end_user_amountIn,
+        users_invited: users_invitedIn,
+        host: hostIn,
+        name: nameIn
     }
     console.log("Inside reducer: ",usersIn)
-    let eventData = axios.post(`/event?end_user_amount=${end_user_amount}&users_invited=${users_invited}&host=${host}`, body).then(res => {
+    let eventData = axios.post(`/event`, body).then(res => {
         return res.data[0];
     })
     return{

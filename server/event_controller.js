@@ -26,17 +26,16 @@ module.exports = {
     },
     create: (req, res) => {
         let {user_id} = req.user;
-        const {end_user_amount, users_invited, host} = req.query;
-        let {users} = req.body;
+        const {end_user_amount, users_invited, host, name, users} = req.body;
         users.push(user_id);
 
-        console.log("Create Info: EUA: ",end_user_amount, " users_invited: ", users_invited," host: ", host);
+        console.log("Create Info: EUA: ",end_user_amount, " users_invited: ", users_invited," host: ", host, ", name: ", name);
         let hostInput = null;
         if(host==="true"){
             hostInput = user_id;
         }        
         const db = req.app.get('db')
-        db.events.create_event([end_user_amount, users_invited, hostInput]).then( (event) =>{
+        db.events.create_event([end_user_amount, users_invited, hostInput, name]).then( (event) =>{
             let theStack = [];
             for(var i=0; i<users.length; i++){
                 theStack.push(db.attendance.create_attendance([event[0].lastval,users[i]]))

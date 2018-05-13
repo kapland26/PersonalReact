@@ -55,15 +55,15 @@ class Home extends Component {
         if(this.props.redir===true){
             return <Redirect to='/active-event'/>
         }
-        // let {display_name, img, auth_id} = this.props.user;
+
         const user = this.props.user||{} 
         let invitesList = this.props.invites.map((val, i)=>{
         // let testList = [1, 2, 3];
-        // let invitesList = testList.map( v(val, i)=>{
+        // let invitesList = testList.map( (val, i)=>{
             return (
                 <div className="invitesContainer" key={i}>
-                    <ListInvitesContainer deleteEventInvite={this.deleteEventInvite} updateActiveEvent={this.updateActiveEvent} event_id={val.event_id} users_invited={val.users_invited} users_remaining={val.users_remaining} host={val.host? "Host Event": "No Host"}/>
-                    {/* <ListInvitesContainer deleteEventInvite={this.deleteEventInvite} updateActiveEvent={this.updateActiveEvent} event_id={"1"} users_invited={3} users_remaining={3} host={ "No Host"}/> */}
+                    <ListInvitesContainer deleteEventInvite={this.deleteEventInvite} updateActiveEvent={this.updateActiveEvent} event_name={val.name} event_id={val.event_id} users_invited={val.users_invited} users_remaining={val.users_remaining} host={val.host? "Host Event": "No Host"}/>
+                    {/* <ListInvitesContainer deleteEventInvite={this.deleteEventInvite} updateActiveEvent={this.updateActiveEvent} event_name={"Here is a name"} users_invited={3} users_remaining={3} host={ "No Host"}/> */}
                 </div>
             )
         })

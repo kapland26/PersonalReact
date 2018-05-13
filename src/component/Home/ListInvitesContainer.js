@@ -14,13 +14,17 @@ class ListInvitesContainer extends Component{
         const {classes} = this.props;
         return(
             <div className="ListInvitesContainer">
-                <p>Event: {this.props.event_id}</p>
-                <p>Amount Invited: {this.props.users_invited}</p>
-                <p>{this.props.host}</p>
-                <p><Button className={classes.button} size="small"onClick= {()=>this.props.updateActiveEvent(this.props.event_id)}> Attend </Button></p>
-                <IconButton aria-label="Delete">
-                    <DeleteIcon onClick={()=> this.props.deleteEventInvite(this.props.event_id, this.props.users_invited)}/>
-                </IconButton>
+                <div className="infoContainer">
+                    <h1><p>{this.props.event_name}:</p></h1>
+                    <p>{this.props.users_invited} users invited, </p>
+                    <p>{this.props.host}</p>
+                </div>
+                <div className="buttonContainer">
+                    <p><Button className={classes.button} size="small"onClick= {()=>this.props.updateActiveEvent(this.props.event_id)}> Attend </Button></p>
+                    <IconButton aria-label="Delete">
+                        <DeleteIcon onClick={()=> this.props.deleteEventInvite(this.props.event_id, this.props.users_invited)}/>
+                    </IconButton>
+                </div>
             </div>
         )
     }
