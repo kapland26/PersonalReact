@@ -4,6 +4,10 @@
   font-size:14px;
 }
 
+.ActiveEvent p{
+    margin: auto;
+}
+
 .eventInfoContainer .titleContainer{
     width: 100%;
     height: 30px;
