@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'; 
 import io from 'socket.io-client';
 import Particles from 'react-particles-js';
+import Sound from 'react-sound';
 import './ActiveEvent.css';
 import peace from './peace-temp.png';
 import wait from './wait.png';
@@ -238,6 +239,14 @@ class ActiveEvent extends Component {
                         </div>
                     ):
                     <div className="leave">
+                    <Sound
+                        url="http://soundbible.com/mp3/foghorn-daniel_simon.mp3"
+                        playStatus={Sound.status.PLAYING}
+                        playFromPosition={0 /* in milliseconds */}
+                        onLoading={this.handleSongLoading}
+                        onPlaying={this.handleSongPlaying}
+                        onFinishedPlaying={this.handleSongFinishedPlaying}
+                    />
                      <Particles className="particleJs"
                         params={{
                             particles: {
