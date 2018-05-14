@@ -27,7 +27,6 @@ function reducer(state = initialState, action){
 //    console.log("In reducer, action = "+action.type+", payload: "+action.payload)
     switch(action.type){
         case GET_USER_INFO+'_FULFILLED':
-            // console.log("got user, payload: ", action.payload)
             return Object.assign({}, state, {user: action.payload})  
         case SET_USER_INFO+'_FULFILLED':
             return Object.assign({}, state, {user: action.payload})
@@ -38,8 +37,8 @@ function reducer(state = initialState, action){
         case GET_ACTIVE_EVENT+'_FULFILLED':
             return Object.assign({}, state, {activeEvent: action.payload})
         case SET_ACTIVE_EVENT+'_FULFILLED':
-            return Object.assign({}, state, {activeEvent: action.payload, 
-                                            redir: true})
+            return Object.assign({}, state, {activeEvent: action.payload,
+                                           redir: true})
         case RESET_ACTIVE_EVENT:
             return Object.assign({}, state, {activeEvent: action.payload})
         case MAKE_REDIR_FALSE:
@@ -109,7 +108,8 @@ export function getActiveEvent(eventId){
         payload: eventData
     }
 }
-export function setActiveEvent(eventId, hist){
+export function setActiveEvent(eventId){
+    console.log("inside Update Active Event ")
     let eventData = axios.put(`/user/updateEvent?event_id=${eventId}`).then(res => {
         console.log("inside set active event axios call, data: ", res.data)
         return res.data[0];
@@ -142,7 +142,7 @@ export function getFriends(userId){
 }
 export function getEventInvites(userId){
     let inviteData = axios.get(`/events?user_id=${userId}`).then( res => {
-        console.log("inside reducer:", res.data)
+        // console.log("inside reducer:", res.data)
         return res.data;
     })
     return {
@@ -158,7 +158,7 @@ export function createEvent(end_user_amountIn, users_invitedIn, hostIn, usersIn,
         host: hostIn,
         name: nameIn
     }
-    console.log("Inside reducer: ",usersIn)
+    console.log("Inside reducer: Hostin",hostIn)
     let eventData = axios.post(`/event`, body).then(res => {
         return res.data[0];
     })

@@ -164,7 +164,10 @@ const styles = {
       color: "white",
       backgroundColor: "#EF5350",
       fontFamily: 'Montserrat',
-      marginBottom: '10px'
+      marginBottom: '10px',
+      "&:hover": {
+          backgroundColor: "#4DB6AC"
+      }
     },
     textField: {
         color: "#EF5350",

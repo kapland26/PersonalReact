@@ -47,8 +47,9 @@ class Home extends Component {
     }
 
     updateActiveEvent(event){
-        this.props.setActiveEvent(event, this.props.history);
+        this.props.setActiveEvent(event);
     }
+
     render(){
         const {classes} = this.props;
 
@@ -57,6 +58,7 @@ class Home extends Component {
         }
 
         const user = this.props.user||{} 
+        this.props.getEventInvites(user.user_id);
         let invitesList = this.props.invites.map((val, i)=>{
         // let testList = [1, 2, 3];
         // let invitesList = testList.map( (val, i)=>{
@@ -71,7 +73,7 @@ class Home extends Component {
             <div className="Home">
                 HOME   
                 <br/><br/>
-                Welcome, {user.name}! 
+                Welcome, {user.name}!
                 <br/><br/>
                 <div className="pendingEventContainer">
                     <div className="pendingEventTitleContainer">

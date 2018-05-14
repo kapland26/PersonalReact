@@ -28,7 +28,7 @@ class AddFriends extends Component {
 
     componentDidMount(){
         if(!this.props.user){
-            // this.props.history.push('/');
+            this.props.history.push('/');
         }
     }
 
