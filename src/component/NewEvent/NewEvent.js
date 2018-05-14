@@ -61,7 +61,7 @@ class NewEvent extends Component {
     handleInvite(){
         let usersIn = this.state.invitedId;
         let invitees = this.state.invitedId.length+1
-        let endUserAmount= invitees - Math.floor(invitees*.01*this.state.endPercent);
+        let endUserAmount= invitees - Math.ceil(invitees*.01*this.state.endPercent);
         let host= this.state.hostEvent;
         let name= this.state.eventName;
         console.log("EUA: ", endUserAmount, " , invitees: ", invitees, ", host: ", host," , usersIn: ", usersIn)
