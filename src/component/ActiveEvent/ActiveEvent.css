@@ -43,6 +43,8 @@
     color: black;
     margin-bottom: 10px;
     overflow: hidden;
+    align-items: center;
+    height: 16px;
 }
 .liveEvent .chatContainer{
     width: 40vw;
@@ -52,10 +54,12 @@
     height: 300px;
     margin-top: 5px;
     margin-bottom: 15px;
+    padding-top: 10px;
+    padding-bottom: 5px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .ActiveEvent .leave{
