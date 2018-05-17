@@ -59,6 +59,12 @@ class Settings extends Component {
         imageOut = this.state.imageIn;
       }
       this.props.updateUserSettings(usernameOut, nameOut, emailOut, imageOut);
+      this.setState({
+        usernameIn: '',
+        nameIn: '',
+        emailIn: '',
+        imageIn: ''
+      })
     }
     if (e==="edit"){
       this.setState({
